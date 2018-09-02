@@ -35,6 +35,5 @@
 		 });
 		 // 写入输出
 		 context.write(keyIn, new IntWritable(max[0]));
-
 	 }
  }
