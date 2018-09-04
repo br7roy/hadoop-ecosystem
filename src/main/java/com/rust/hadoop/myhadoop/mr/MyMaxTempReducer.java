@@ -20,13 +20,17 @@
   * Description: reduce阶段
   */
  public class MyMaxTempReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+	 @Override
+	 protected void setup(Context context) throws IOException {
+		 InetAddress address = InetAddress.getLocalHost();
+		 System.out.println(System.currentTimeMillis() + "MyMaxTempReducer.setup():" + address.getHostAddress() + ":" + this.hashCode());
+	 }
+
 
 	 @Override
-	 protected void reduce(Text keyIn, Iterable<IntWritable> valueIn, Context context) throws IOException, InterruptedException {
-		 // 打印map task 执行主机地址
-		 InetAddress address = InetAddress.getLocalHost();
-		 System.out.println("reduce:" + address.getHostAddress());
-		 final Integer[] max = {0};
+	 protected void reduce(Text keyIn, Iterable<IntWritable> valueIn, Context context) throws IOException,
+			 InterruptedException {
+		 int[] max = {0};
 		 // 提取年度最高气温
 		 valueIn.forEach(intWritable -> {
 			 if (intWritable.get() > max[0]) {
@@ -35,5 +39,12 @@
 		 });
 		 // 写入输出
 		 context.write(keyIn, new IntWritable(max[0]));
+	 }
+
+	 @Override
+	 protected void cleanup(Context context) throws IOException {
+		 InetAddress address = InetAddress.getLocalHost();
+		 System.out.println(System.currentTimeMillis() + "MyMaxTempReducer.cleanup():" + address.getHostAddress() +
+				 ":" + this.hashCode());
 	 }
  }

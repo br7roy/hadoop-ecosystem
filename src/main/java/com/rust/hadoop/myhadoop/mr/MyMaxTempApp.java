@@ -7,6 +7,7 @@
  package com.rust.hadoop.myhadoop.mr;
 
  import org.apache.hadoop.conf.Configuration;
+ import org.apache.hadoop.fs.FileSystem;
  import org.apache.hadoop.fs.Path;
  import org.apache.hadoop.io.IntWritable;
  import org.apache.hadoop.io.Text;
@@ -28,6 +29,10 @@
 			 System.err.println("Usage: MaxTemperature <input path> <output path>");
 		 }
 		 Job job = Job.getInstance();
+		 Configuration conf = job.getConfiguration();
+		 FileSystem fs = FileSystem.get(conf);
+		 fs.delete(new Path(args[1]), true);
+		 System.out.println(conf.get("fs.defaultFS"));
 		 job.setJarByClass(MyMaxTempApp.class);
 		 // 设置作业名称
 		 job.setJobName("Max Temperature");
@@ -43,9 +48,6 @@
 		 job.setOutputKeyClass(Text.class);
 		 // 设置输出value类型
 		 job.setOutputValueClass(IntWritable.class);
-
-		 Configuration conf = job.getConfiguration();
-		 System.out.println(conf.get("fs.defaultFS"));
 
 		 // 开始执行任务
 		 System.exit(job.waitForCompletion(true) ? 0 : 1);

@@ -24,6 +24,13 @@
 
 	 private static final int MISSING = 9999;
 
+	 @Override
+	 protected void setup(Context context) throws IOException, InterruptedException {
+		 // 打印map task 执行主机地址
+		 InetAddress address = InetAddress.getLocalHost();
+		 System.out.println(System.currentTimeMillis() + "MyMaxTempMapper.setup():" + address.getHostAddress() + ":" + this.hashCode());
+
+	 }
 
 	 /**
 	  * @param key
@@ -34,9 +41,6 @@
 	  */
 	 @Override
 	 protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-		 // 打印map task 执行主机地址
-		 InetAddress address = InetAddress.getLocalHost();
-		 System.out.println("map:" + address.getHostAddress());
 		 //   value String
 		 String line = value.toString();
 		 //   提取年份
@@ -55,5 +59,11 @@
 		 if (airTemperature != MISSING && quality.matches("[01459]")) {
 			 context.write(new Text(year), new IntWritable(airTemperature));
 		 }
+	 }
+
+	 @Override
+	 protected void cleanup(Context context) throws IOException, InterruptedException {
+		 InetAddress address = InetAddress.getLocalHost();
+		 System.out.println(System.currentTimeMillis() + "MyMaxTempMapper.cleanup():" + address.getHostAddress() + ":" + this.hashCode());
 	 }
  }
