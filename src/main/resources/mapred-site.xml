@@ -4,5 +4,10 @@
         <name>mapreduce.framework.name</name>
         <value>yarn</value>
     </property>
-
+    <property>
+        <name>mapreduce.job.counters.limit</name>
+        <value>65535</value>
+        <description>Limit on the number of user counters allowed per job.
+        </description>
+    </property>
 </configuration>

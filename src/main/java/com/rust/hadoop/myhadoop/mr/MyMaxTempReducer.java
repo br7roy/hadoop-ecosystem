@@ -20,10 +20,14 @@
   * Description: reduce阶段
   */
  public class MyMaxTempReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+	 InetAddress address;
+
 	 @Override
 	 protected void setup(Context context) throws IOException {
 		 InetAddress address = InetAddress.getLocalHost();
-		 System.out.println(System.currentTimeMillis() + "MyMaxTempReducer.setup():" + address.getHostAddress() + ":" + this.hashCode());
+		 // System.out.println(System.currentTimeMillis() + "MyMaxTempReducer.setup():" + address.getHostAddress() +
+		 // ":" + this.hashCode());
+		 context.getCounter("r", Util.getGroup("MaxReducer.setup", this.hashCode())).increment(1);
 	 }
 
 
@@ -39,12 +43,14 @@
 		 });
 		 // 写入输出
 		 context.write(keyIn, new IntWritable(max[0]));
+		 context.getCounter("r", Util.getGroup("MaxReducer.reduce", this.hashCode())).increment(1);
 	 }
 
 	 @Override
 	 protected void cleanup(Context context) throws IOException {
 		 InetAddress address = InetAddress.getLocalHost();
-		 System.out.println(System.currentTimeMillis() + "MyMaxTempReducer.cleanup():" + address.getHostAddress() +
-				 ":" + this.hashCode());
+		 // System.out.println(System.currentTimeMillis() + "MyMaxTempReducer.cleanup():" + address.getHostAddress() +
+		 // 	 ":" + this.hashCode());
+		 context.getCounter("r", Util.getGroup("MaxReducer.cleanup", this.hashCode())).increment(1);
 	 }
  }
