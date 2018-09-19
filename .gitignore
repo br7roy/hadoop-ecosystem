@@ -25,12 +25,7 @@
 hs_err_pid*
 
 .gitignore
-target/generated-sources/
-target/generated-test-sources/
+
 /target/
-target/bigdata.lnk
-target/classes/mapred-site.xml
-target/classes/yarn-site.xml
-target/maven-archiver/
-target/maven-status/maven-compiler-plugin/testCompile/
-target/surefire-reports/
+
+

@@ -49,6 +49,9 @@
 		 // 设置输出value类型
 		 job.setOutputValueClass(IntWritable.class);
 
+		 // 设置Mapper端合成类，减少map到reduce传输量
+		 job.setCombinerClass(MyMaxTempReducer.class);
+
 		 // 开始执行任务
 		 System.exit(job.waitForCompletion(true) ? 0 : 1);
 	 }

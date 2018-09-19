@@ -63,7 +63,7 @@
 		 if (airTemperature != MISSING && quality.matches("[01459]")) {
 			 context.write(new Text(year), new IntWritable(airTemperature));
 		 }
-		 context.getCounter("m", Util.getGroup("MaxMapper.map", this.hashCode())).increment(1);
+		 // context.getCounter("m", Util.getGroup("MaxMapper.map", this.hashCode())).increment(1);
 	 }
 
 	 @Override
