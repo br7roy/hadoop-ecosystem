@@ -3,6 +3,7 @@
 	<property>
 		<name>fs.defaultFS</name>
 		<value>hdfs://s100:8020</value>
+		<!--<value>file:///</value>-->
 	</property>
 	<property>
 		<name>io.map.index.interval</name>

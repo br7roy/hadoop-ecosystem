@@ -33,4 +33,15 @@
 		 long time = System.nanoTime();
 		 return "[" + hostName + "]." + hash + "." + time + ":" + groupName;
 	 }
+
+	 public static String getGroup2(String groupName, int hash) {
+		 String hostName = null;
+		 try {
+			 hostName = InetAddress.getLocalHost().getHostName();
+		 } catch (UnknownHostException e) {
+			 e.printStackTrace();
+			 return null;
+		 }
+		 return "[" + hostName + "]." + hash + ":" + groupName;
+	 }
  }
