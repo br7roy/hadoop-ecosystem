@@ -20,5 +20,6 @@
   @Override
   public int getPartition(Text text, IntWritable intWritable, int numPartitions) {
    return 0;
+
   }
  }
