@@ -4,6 +4,17 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 /**
  * Unit test for simple App.
  */
@@ -61,5 +72,47 @@ public class AppTest
         System.out.println(-1 ^ 10);
     }
 
+    public void testFileFormat() throws IOException {
+        String root = "E:\\Developer\\project\\gitlab\\teqExp\\hadoop\\hadoop第十一天";
+        Path path = Paths.get(root,"wc.txt");
+
+        InputStream inputStream = Files.newInputStream(path, StandardOpenOption.READ);
+
+        byte[] bs = new byte[1024];
+
+        StringBuilder stringBuilder = new StringBuilder();
+        int len = 0;
+        while ((len = inputStream.read(bs)) != -1) {
+            stringBuilder.append(new String(bs, 0, len));
+        }
+        String es = stringBuilder.toString();
+
+        System.out.println(es);
+
+        String[] s1 = es.split("\r\n");
+        System.out.println(s1.length);
+        Stream<String> stream = Stream.of(s1);
+
+        stream.forEach(System.out::println);
+
+        String[]s2 = es.split("(/s|\r|\n|\r\n)");
+        Stream<String> stringStream = Stream.of(s2);
+        stringStream.forEach(System.out::println);
+
+        String[] ss = es.split(" |\r\n");
+        System.out.println("<<<<<<<<<<<<<<<<<<<");
+        System.out.println(Arrays.toString(ss));
+
+        System.out.println("------------------");
+        List<String> strings = new ArrayList<>();
+        for (String s : ss) {
+            if (s!=null) {
+                String[] str = s.split("\r\n");
+                strings.addAll(Arrays.asList(str));
+            }
+        }
+        System.out.println(strings);
+
+    }
 
 }

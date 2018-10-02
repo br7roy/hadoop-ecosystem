@@ -4,7 +4,7 @@
   * Author:   Rust
   * Date:     2018/9/22 16:35
   */
- package com.rust.hadoop.myhadoop.wordcount2;
+ package com.rust.hadoop.myhadoop.inputformat.keyvalue;
 
  import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -13,6 +13,8 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+ import org.apache.hadoop.mapreduce.lib.input.KeyValueLineRecordReader;
+ import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
@@ -21,7 +23,7 @@ import java.io.IOException;
   * FileName:    WordCountApp
   * Author:      Rust
   * Date:        2018/9/22
-  * Description:
+  * Description: KeyValueFormat
   */
  public class WordCountApp {
 	 public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
@@ -46,26 +48,25 @@ import java.io.IOException;
 		 // mapreduce.output.fileoutputformat.outputdir
 		 FileOutputFormat.setOutputPath(job, new Path(args[1]));// 输出路径
 
+		 job.setInputFormatClass(KeyValueTextInputFormat.class); // 设置输入格式类型
+		 // 设置每行的keyvalue之间的分隔符
+		 job.getConfiguration().set(KeyValueLineRecordReader.KEY_VALUE_SEPERATOR, "->");
+
+
 		 // 通过程序设置最小切片和最大切片
-		 // job.getConfiguration().setInt(FileInputFormat.SPLIT_MAXSIZE, 15);
-		 // job.getConfiguration().setInt(FileInputFormat.SPLIT_MINSIZE, 10);
 		 FileInputFormat.setMaxInputSplitSize(job, 30);
 		 FileInputFormat.setMinInputSplitSize(job, 30);
 
 
-		 job.setMapperClass(WordCountMapper.class);		// 设置Mapper类型
+		 job.setMapperClass(WordCountMapper.class);        // 设置Mapper类型
 
-		 job.setReducerClass(WordCountReducer.class);	// 设置Reducer类型
+		 job.setReducerClass(WordCountReducer.class);    // 设置Reducer类型
 
-		 job.setOutputKeyClass(Text.class);		// 设置输出key类型
+		 job.setOutputKeyClass(Text.class);        // 设置输出key类型
 
-		 job.setOutputValueClass(IntWritable.class);	// 设置输出value类型
+		 job.setOutputValueClass(IntWritable.class);    // 设置输出value类型
 
-		 job.setNumReduceTasks(4);	//设置reduce的任务数
-
-		 job.setPartitionerClass(MyPartitioner.class);	// 指定分区函数
-
-		 job.setCombinerClass(WordCountReducer.class);	// 设置combiner函数,必定是reduce
+		 job.setNumReduceTasks(1);    //设置reduce的任务数
 
 
 		 // 开始执行任务

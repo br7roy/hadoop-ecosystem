@@ -4,7 +4,7 @@
   * Author:   Rust
   * Date:     2018/9/22 16:35
   */
- package com.rust.hadoop.myhadoop.wordcount2;
+ package com.rust.hadoop.myhadoop.inputformat.combine;
 
  import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -22,6 +22,7 @@ import java.io.IOException;
   * Author:      Rust
   * Date:        2018/9/22
   * Description:
+  * CombineFileInputFormat合成文件输入格式
   */
  public class WordCountApp {
 	 public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
@@ -47,8 +48,6 @@ import java.io.IOException;
 		 FileOutputFormat.setOutputPath(job, new Path(args[1]));// 输出路径
 
 		 // 通过程序设置最小切片和最大切片
-		 // job.getConfiguration().setInt(FileInputFormat.SPLIT_MAXSIZE, 15);
-		 // job.getConfiguration().setInt(FileInputFormat.SPLIT_MINSIZE, 10);
 		 FileInputFormat.setMaxInputSplitSize(job, 30);
 		 FileInputFormat.setMinInputSplitSize(job, 30);
 
@@ -61,11 +60,8 @@ import java.io.IOException;
 
 		 job.setOutputValueClass(IntWritable.class);	// 设置输出value类型
 
-		 job.setNumReduceTasks(4);	//设置reduce的任务数
+		 job.setNumReduceTasks(1);	//设置reduce的任务数
 
-		 job.setPartitionerClass(MyPartitioner.class);	// 指定分区函数
-
-		 job.setCombinerClass(WordCountReducer.class);	// 设置combiner函数,必定是reduce
 
 
 		 // 开始执行任务
