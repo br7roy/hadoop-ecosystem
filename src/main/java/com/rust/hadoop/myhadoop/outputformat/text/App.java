@@ -7,17 +7,17 @@
  package com.rust.hadoop.myhadoop.outputformat.text;
 
  import org.apache.hadoop.conf.Configuration;
- import org.apache.hadoop.fs.FileSystem;
- import org.apache.hadoop.fs.Path;
- import org.apache.hadoop.io.IntWritable;
- import org.apache.hadoop.io.Text;
- import org.apache.hadoop.io.compress.GzipCodec;
- import org.apache.hadoop.mapreduce.Job;
- import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
- import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
- import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.compress.SnappyCodec;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
- import java.io.IOException;
+import java.io.IOException;
 
  /**
   * FileName:    WordCountApp
@@ -47,7 +47,7 @@
 
 		 // 设置输出格式参数
 		 TextOutputFormat.setCompressOutput(job, true);//设置可压缩
-		 TextOutputFormat.setOutputCompressorClass(job, GzipCodec.class);//设置压缩编解码器
+		 TextOutputFormat.setOutputCompressorClass(job, SnappyCodec.class);//设置压缩编解码器
 
 		 job.setOutputFormatClass(TextOutputFormat.class);//设置输出格式类
 
