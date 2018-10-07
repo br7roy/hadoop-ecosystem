@@ -60,9 +60,9 @@
                         <configuration>
                             <tasks>
                                 <echo>-------开始复制jar包到共享目录下--------</echo>
-                                <delete file="C:\Developer\bigdata\project\myhadoop-0.0.1-SNAPSHOT.jar"/>
+                                <delete file="E:\Developer\bigdata\project\myhadoop-0.0.1-SNAPSHOT.jar"/>
                                 <copy file="target\myhadoop-0.0.1-SNAPSHOT.jar"
-                                      toDir="C:\Developer\bigdata\project"/>
+                                      toDir="E:\Developer\bigdata\project"/>
                             </tasks>
                         </configuration>
                     </execution>
