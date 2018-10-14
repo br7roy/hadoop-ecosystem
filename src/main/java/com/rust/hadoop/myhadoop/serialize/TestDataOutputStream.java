@@ -1,11 +1,11 @@
 package com.rust.hadoop.myhadoop.serialize;
 
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-
-import org.junit.Test;
 
 public class TestDataOutputStream {
 
@@ -22,7 +22,7 @@ public class TestDataOutputStream {
 		dos.close();
 		DataInputStream dis = new DataInputStream(
 				new ByteArrayInputStream(baos.toByteArray()));
-		
+
 		dis.readChar();
 	}
 

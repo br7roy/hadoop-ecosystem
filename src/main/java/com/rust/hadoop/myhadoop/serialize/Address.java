@@ -1,10 +1,10 @@
 package com.rust.hadoop.myhadoop.serialize;
 
+import org.apache.hadoop.io.Writable;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-
-import org.apache.hadoop.io.Writable;
 
 public class Address implements Writable {
 	private String privince;

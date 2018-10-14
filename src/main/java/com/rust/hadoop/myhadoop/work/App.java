@@ -6,24 +6,28 @@
   */
  package com.rust.hadoop.myhadoop.work;
 
- import com.rust.hadoop.myhadoop.inputformat.whole.WholeInputFormat;
  import org.apache.hadoop.conf.Configuration;
- import org.apache.hadoop.fs.FileSystem;
- import org.apache.hadoop.fs.Path;
- import org.apache.hadoop.io.Text;
- import org.apache.hadoop.mapreduce.Job;
- import org.apache.hadoop.mapreduce.lib.db.DBConfiguration;
- import org.apache.hadoop.mapreduce.lib.db.DBInputFormat.NullDBWritable;
- import org.apache.hadoop.mapreduce.lib.db.DBOutputFormat;
- import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.db.DBConfiguration;
+import org.apache.hadoop.mapreduce.lib.db.DBInputFormat.NullDBWritable;
+import org.apache.hadoop.mapreduce.lib.db.DBOutputFormat;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
- import java.io.IOException;
+import java.io.IOException;
+import java.time.LocalDateTime;
 
  /**
   * Author:      Rust
   * Date:        2018/10/9 23:38
   */
  public class App {
+	 private static final Logger LOG = LoggerFactory.getLogger(App.class.getName());
+
 	 public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		 if (args.length != 2) {
 			 System.err.println("Usage: WordCount <input path> <output path>");
@@ -33,7 +37,7 @@
 		 FileSystem fs = FileSystem.get(conf);
 		 fs.delete(new Path(args[1]), true);
 		 System.out.println(conf.get("fs.defaultFS"));
-
+		 System.out.println("ok, start at :" + LocalDateTime.now().toString());
 		 // mapreduce.job.jar
 		 job.setJarByClass(App.class);
 
@@ -41,14 +45,15 @@
 		 job.setJobName("area table");// 设置作业名称
 
 		 FileInputFormat.addInputPath(job, new Path(args[0]));// 输入路径
-		 job.setInputFormatClass(WholeInputFormat.class); // 设置输入格式类型
+		 // job.setInputFormatClass(WholeInputFormat.class); // 设置输入格式类型
 
 		 //设置输出格式类
 		 job.setOutputFormatClass(DBOutputFormat.class);
 		 // 设置输出格式参数
-		 DBConfiguration.configureDB(conf, "com.mysql.jdbc.Driver", "jdbc:mysql://192.168.231.1:3306/test", "root",
-				 "root");
-		 DBOutputFormat.setOutput(job, "t_msap_area_rel", "AREA_REL_NO", "REGION_2_CODE", "REGION_2_NAME", "CITY_CODE",
+		 DBConfiguration.configureDB(conf, "com.mysql.jdbc.Driver", "jdbc:mysql://192.168.1.19:3308/msap", "msapopr",
+				 "Msap123456!");
+		 DBOutputFormat.setOutput(job, "t_msap_chl_area_city_rel", "AREA_REL_NO", "REGION_2_CODE", "REGION_2_NAME",
+				 "CITY_CODE",
 				 "CITY_NAME", "CREATE_TIME", "UPDATE_TIME", "CREATE_BY", "UPDATE_BY");
 
 

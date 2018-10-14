@@ -1,16 +1,16 @@
 package com.rust.hadoop.myhadoop.serialize;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.junit.Test;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * @author Rust 测试集合串行
@@ -35,41 +35,12 @@ public class TestCollWritable {
 	@Test
 	public void mapWritable() throws Throwable, IOException {
 		MapWritable mapWritable = new MapWritable();
-for (int i = 0; i < 10; i++) {
-	
-	mapWritable.put(new IntWritable(i), new Text("tom"+i));
-}				
-mapWritable.write(new DataOutputStream(new FileOutputStream(new File("d:/mapw.mapw"))));
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		for (int i = 0; i < 10; i++) {
+
+			mapWritable.put(new IntWritable(i), new Text("tom" + i));
+		}
+		mapWritable.write(new DataOutputStream(new FileOutputStream(new File("d:/mapw.mapw"))));
+
 
 	}
 

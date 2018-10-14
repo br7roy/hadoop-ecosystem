@@ -1,17 +1,17 @@
 package com.rust.hadoop.myhadoop.serialize;
 
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.junit.Test;
-
 public class TestSerialize {
 
 	/**
 	 * 串行化
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	@Test
@@ -26,7 +26,7 @@ public class TestSerialize {
 
 	/**
 	 * 自定义串行化
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	// @Test
@@ -58,9 +58,9 @@ public class TestSerialize {
 		Person person = new Person();
 		person.readFields(ois);
 		System.out.println(person);
-		
+
 
 	}
-	
+
 
 }
