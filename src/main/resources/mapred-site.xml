@@ -2,8 +2,8 @@
 <configuration>
     <property>
         <name>mapreduce.framework.name</name>
-        <value>yarn</value>
-        <!--<value>local</value>-->
+        <!--<value>yarn</value>-->
+        <value>local</value>
     </property>
     <property>
         <name>mapreduce.job.counters.limit</name>
