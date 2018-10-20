@@ -8,28 +8,28 @@
 
 
  import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
-import com.rust.hadoop.myhadoop.mr.Util;
-import com.rust.hadoop.myhadoop.work.entity.Big;
-import com.rust.hadoop.myhadoop.work.entity.City;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Mapper;
-import org.junit.Test;
+ import com.google.gson.GsonBuilder;
+ import com.google.gson.stream.JsonReader;
+ import com.rust.hadoop.myhadoop.mr.Util;
+ import com.rust.hadoop.myhadoop.work.entity.Big;
+ import com.rust.hadoop.myhadoop.work.entity.City;
+ import org.apache.hadoop.io.LongWritable;
+ import org.apache.hadoop.io.Text;
+ import org.apache.hadoop.mapreduce.Mapper;
+ import org.junit.Test;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+ import java.io.BufferedWriter;
+ import java.io.IOException;
+ import java.nio.charset.StandardCharsets;
+ import java.nio.file.Files;
+ import java.nio.file.Path;
+ import java.nio.file.Paths;
+ import java.nio.file.StandardOpenOption;
+ import java.util.ArrayList;
+ import java.util.List;
+ import java.util.Objects;
 
-import static com.sun.org.apache.xml.internal.serialize.LineSeparator.Windows;
+ import static com.sun.org.apache.xml.internal.serialize.LineSeparator.Windows;
 
  /**
   * FileName:    WordCountMapper
@@ -159,7 +159,7 @@ import static com.sun.org.apache.xml.internal.serialize.LineSeparator.Windows;
 			 retCode = "419001";
 		 } else if ("东沙群岛".equals(cityName)) {
 			 retCode = "442100";
-		 }else {
+		 } else {
 			 retCode = "error";
 		 }
 		 return retCode;

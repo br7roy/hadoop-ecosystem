@@ -12,27 +12,30 @@
   */
  public class County {
 
-   private String name;
-   private String code;
-   public void setName(String name) {
-    this.name = name;
-   }
-   public String getName() {
-    return name;
-   }
+	 private String name;
+	 private String code;
 
-   public void setCode(String code) {
-    this.code = code;
-   }
-   public String getCode() {
-    return code;
-   }
+	 public void setName(String name) {
+		 this.name = name;
+	 }
 
-     @Override
-     public String toString() {
-         return "County{" +
-                 "name='" + name + '\'' +
-                 ", code='" + code + '\'' +
-                 '}';
-     }
+	 public String getName() {
+		 return name;
+	 }
+
+	 public void setCode(String code) {
+		 this.code = code;
+	 }
+
+	 public String getCode() {
+		 return code;
+	 }
+
+	 @Override
+	 public String toString() {
+		 return "County{" +
+				 "name='" + name + '\'' +
+				 ", code='" + code + '\'' +
+				 '}';
+	 }
  }

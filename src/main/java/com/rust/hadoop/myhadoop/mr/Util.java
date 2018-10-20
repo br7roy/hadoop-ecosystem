@@ -18,6 +18,7 @@
  public class Util {
 	 /**
 	  * 获得组名
+	  *
 	  * @param groupName
 	  * @param hash
 	  * @return

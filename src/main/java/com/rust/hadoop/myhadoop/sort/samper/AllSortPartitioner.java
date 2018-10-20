@@ -7,7 +7,7 @@
  package com.rust.hadoop.myhadoop.sort.samper;
 
  import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.mapreduce.Partitioner;
+ import org.apache.hadoop.mapreduce.Partitioner;
 
  /**
   * 全排序分区函数

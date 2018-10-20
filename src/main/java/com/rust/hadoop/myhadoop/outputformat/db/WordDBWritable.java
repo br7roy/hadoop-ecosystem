@@ -24,49 +24,49 @@
   * Description:
   */
  public class WordDBWritable implements DBWritable, WritableComparable<WordDBWritable> {
-  private String word;
-  private int num;
+	 private String word;
+	 private int num;
 
-  public String getWord() {
-   return word;
-  }
+	 public String getWord() {
+		 return word;
+	 }
 
-  public void setWord(String word) {
-   this.word = word;
-  }
+	 public void setWord(String word) {
+		 this.word = word;
+	 }
 
-  public int getNum() {
-   return num;
-  }
+	 public int getNum() {
+		 return num;
+	 }
 
-  public void setNum(int num) {
-   this.num = num;
-  }
+	 public void setNum(int num) {
+		 this.num = num;
+	 }
 
-  @Override
-  public void write(PreparedStatement statement) throws SQLException {
-   statement.setString(1, word);
-   statement.setInt(2, num);
-  }
+	 @Override
+	 public void write(PreparedStatement statement) throws SQLException {
+		 statement.setString(1, word);
+		 statement.setInt(2, num);
+	 }
 
-  @Override
-  public void readFields(ResultSet resultSet) throws SQLException {
+	 @Override
+	 public void readFields(ResultSet resultSet) throws SQLException {
 
-  }
+	 }
 
-  @Override
-  public void write(DataOutput out) throws IOException {
-   out.writeUTF(word);
-   out.writeInt(num);
-  }
+	 @Override
+	 public void write(DataOutput out) throws IOException {
+		 out.writeUTF(word);
+		 out.writeInt(num);
+	 }
 
-  @Override
-  public void readFields(DataInput in) throws IOException {
-   this.word = in.readUTF();
-   this.num = in.readInt();
-  }
+	 @Override
+	 public void readFields(DataInput in) throws IOException {
+		 this.word = in.readUTF();
+		 this.num = in.readInt();
+	 }
 
-  public int compareTo(@SuppressWarnings("NullableProblems") WordDBWritable o) {
-   return new Text(this.word).compareTo(new Text(o.word));
-  }
+	 public int compareTo(@SuppressWarnings("NullableProblems") WordDBWritable o) {
+		 return new Text(this.word).compareTo(new Text(o.word));
+	 }
  }

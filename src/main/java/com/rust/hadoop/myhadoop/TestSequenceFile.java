@@ -21,9 +21,8 @@ public class TestSequenceFile {
 
 	/**
 	 * 写入seqFile
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -54,7 +53,7 @@ public class TestSequenceFile {
 
 	/**
 	 * 读取seqfile
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	@Test
@@ -80,7 +79,7 @@ public class TestSequenceFile {
 
 	/**
 	 * 读取SeqFile文件位置
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	@Test
@@ -120,7 +119,7 @@ public class TestSequenceFile {
 
 	/**
 	 * 读取SeqFile文件位置
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	@Test
@@ -145,7 +144,7 @@ public class TestSequenceFile {
 
 	/**
 	 * 读取seqFile同步点
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -174,9 +173,8 @@ public class TestSequenceFile {
 
 	/**
 	 * 写入seqFile,手动指定同步点
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -211,9 +209,8 @@ public class TestSequenceFile {
 
 	/**
 	 * 不使用压缩写入seqFile SequenceFile key-value 类似于map
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -251,8 +248,8 @@ public class TestSequenceFile {
 	/**
 	 * 使用块压缩写入seqFile SequenceFile key-value 类似于map
 	 * 编解码格式使用Deflate
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -289,8 +286,8 @@ public class TestSequenceFile {
 	/**
 	 * 使用块压缩写入seqFile SequenceFile key-value 类似于map
 	 * 编解码格式使用Deflate
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -323,10 +320,10 @@ public class TestSequenceFile {
 		writer.close();
 		System.out.println("done");
 	}
-	
+
 	/**
 	 * 读取seqfile
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	@Test
@@ -349,5 +346,5 @@ public class TestSequenceFile {
 		System.out.println("done");
 
 	}
-	
+
 }

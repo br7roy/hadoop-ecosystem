@@ -8,7 +8,7 @@ import org.apache.hadoop.io.Text;
 import org.junit.Test;
 
 /**
- * @author Rust 
+ * @author Rust
  * 测试SequenceFile
  */
 public class TestArrayFile {
@@ -16,9 +16,8 @@ public class TestArrayFile {
 	/**
 	 * 写入MapFile变形 --> ArrayFile
 	 * SequenceFile key-->value 类似于Map
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@Test
 	public void write() throws Throwable {
@@ -39,9 +38,7 @@ public class TestArrayFile {
 	}
 
 	/**
-	 * 
 	 * @throws Throwable
-	 * 
 	 */
 	@Test
 	public void read() throws Throwable {
@@ -49,21 +46,19 @@ public class TestArrayFile {
 		Configuration conf = new Configuration();
 		conf.set("fs.defaultFS", "hdfs://s100:8020");
 		FileSystem fs = FileSystem.get(conf);
-		ArrayFile.Reader reader = new ArrayFile.Reader(fs, 
+		ArrayFile.Reader reader = new ArrayFile.Reader(fs,
 				"hdfs://s100:8020/user/arrayfile.array", conf);
 
 		Text value = new Text();
-		
+
 		// 读数据
-		while(reader.next(value)!=null) {
-			System.out.println("val:"+value);
+		while (reader.next(value) != null) {
+			System.out.println("val:" + value);
 		}
 		reader.close();
-		
+
 		System.out.println("done");
 	}
-	
-	
-	
+
 
 }

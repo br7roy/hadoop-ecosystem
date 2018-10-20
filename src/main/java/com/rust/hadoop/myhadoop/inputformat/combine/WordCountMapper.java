@@ -8,14 +8,14 @@
 
 
  import com.google.common.collect.Maps;
-import com.rust.hadoop.myhadoop.mr.Util;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Mapper;
+ import com.rust.hadoop.myhadoop.mr.Util;
+ import org.apache.hadoop.io.IntWritable;
+ import org.apache.hadoop.io.LongWritable;
+ import org.apache.hadoop.io.Text;
+ import org.apache.hadoop.mapreduce.Mapper;
 
-import java.io.IOException;
-import java.util.Map;
+ import java.io.IOException;
+ import java.util.Map;
 
  /**
   * FileName:    WordCountMapper
@@ -59,11 +59,9 @@ import java.util.Map;
 	 }
 
 
-
-
-
 	 /**
 	  * 发送数据(IPC)
+	  *
 	  * @param context job作业上下文
 	  */
 	 private void sendData(Context context) {
@@ -84,6 +82,7 @@ import java.util.Map;
 
 	 /**
 	  * 将单词添加到集合中
+	  *
 	  * @param s word
 	  */
 	 private void add2Map(String s) {
@@ -110,14 +109,14 @@ import java.util.Map;
 		 Map<String, Integer> words = Maps.newHashMap();
 		 for (int i = 0; i < 5; i++) {
 
-		 words.compute("test", (s1, integer) -> {
-			 if (integer == null) {
-				 integer = 1;
-			 } else {
-				 integer = integer + 1;
-			 }
-			 return integer;
-		 });
+			 words.compute("test", (s1, integer) -> {
+				 if (integer == null) {
+					 integer = 1;
+				 } else {
+					 integer = integer + 1;
+				 }
+				 return integer;
+			 });
 		 }
 		 System.out.println(words);
 	 }

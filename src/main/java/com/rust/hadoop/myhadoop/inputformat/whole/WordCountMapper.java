@@ -8,13 +8,13 @@
 
 
  import org.apache.hadoop.io.BytesWritable;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.NullWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Mapper;
+ import org.apache.hadoop.io.IntWritable;
+ import org.apache.hadoop.io.NullWritable;
+ import org.apache.hadoop.io.Text;
+ import org.apache.hadoop.mapreduce.Mapper;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+ import java.io.IOException;
+ import java.nio.charset.StandardCharsets;
 
 
  /**

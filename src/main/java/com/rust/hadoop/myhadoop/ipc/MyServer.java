@@ -7,9 +7,9 @@
  package com.rust.hadoop.myhadoop.ipc;
 
  import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.ipc.RPC;
+ import org.apache.hadoop.ipc.RPC;
 
-import java.io.IOException;
+ import java.io.IOException;
 
  /**
   * FileName:    MyServer
@@ -18,21 +18,21 @@ import java.io.IOException;
   * Description:
   */
  public class MyServer {
-  public static void main(String[] args) {
-   try {
-    Configuration conf = new Configuration();
-    RPC.Server server = new RPC.Builder(conf)
-            .setProtocol(HelloWorldService.class)
-            .setVerbose(true)
-            .setInstance(new HelloWorldServiceImpl())
-            .setBindAddress("localhost")
-            .setNumHandlers(2)
-            .setPort(8888)
-            .build();
-    server.start();
-   } catch (IOException e) {
-    e.printStackTrace();
-   }
+	 public static void main(String[] args) {
+		 try {
+			 Configuration conf = new Configuration();
+			 RPC.Server server = new RPC.Builder(conf)
+					 .setProtocol(HelloWorldService.class)
+					 .setVerbose(true)
+					 .setInstance(new HelloWorldServiceImpl())
+					 .setBindAddress("localhost")
+					 .setNumHandlers(2)
+					 .setPort(8888)
+					 .build();
+			 server.start();
+		 } catch (IOException e) {
+			 e.printStackTrace();
+		 }
 
-  }
+	 }
  }

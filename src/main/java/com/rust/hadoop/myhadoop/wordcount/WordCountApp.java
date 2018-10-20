@@ -7,15 +7,15 @@
  package com.rust.hadoop.myhadoop.wordcount;
 
  import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+ import org.apache.hadoop.fs.FileSystem;
+ import org.apache.hadoop.fs.Path;
+ import org.apache.hadoop.io.IntWritable;
+ import org.apache.hadoop.io.Text;
+ import org.apache.hadoop.mapreduce.Job;
+ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import java.io.IOException;
+ import java.io.IOException;
 
  /**
   * FileName:    WordCountApp
@@ -53,19 +53,19 @@ import java.io.IOException;
 		 FileInputFormat.setMinInputSplitSize(job, 30);
 
 
-		 job.setMapperClass(WordCountMapper.class);		// 设置Mapper类型
+		 job.setMapperClass(WordCountMapper.class);        // 设置Mapper类型
 
-		 job.setReducerClass(WordCountReducer.class);	// 设置Reducer类型
+		 job.setReducerClass(WordCountReducer.class);    // 设置Reducer类型
 
-		 job.setOutputKeyClass(Text.class);		// 设置输出key类型
+		 job.setOutputKeyClass(Text.class);        // 设置输出key类型
 
-		 job.setOutputValueClass(IntWritable.class);	// 设置输出value类型
+		 job.setOutputValueClass(IntWritable.class);    // 设置输出value类型
 
-		 job.setNumReduceTasks(4);	//设置reduce的任务数
+		 job.setNumReduceTasks(4);    //设置reduce的任务数
 
-		 job.setPartitionerClass(MyPartitioner.class);	// 指定分区函数
+		 job.setPartitionerClass(MyPartitioner.class);    // 指定分区函数
 
-		 job.setCombinerClass(WordCountReducer.class);	// 设置combiner函数
+		 job.setCombinerClass(WordCountReducer.class);    // 设置combiner函数
 
 
 		 // 开始执行任务

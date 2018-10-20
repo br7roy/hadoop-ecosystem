@@ -2,12 +2,12 @@ package com.rust.hadoop.myhadoop.serialize;
 
 import java.io.Serializable;
 
-public class Dog implements Serializable{
+public class Dog implements Serializable {
 	/**
-	 *反串行 
+	 * 反串行
 	 */
 	private static final long serialVersionUID = 3621048420579402762L;
-	private String name ;
+	private String name;
 
 	public Dog(String name) {
 		this.name = name;
@@ -20,6 +20,6 @@ public class Dog implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 
 }

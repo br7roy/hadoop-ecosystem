@@ -10,7 +10,7 @@ import org.apache.hadoop.io.Text;
 import org.junit.Test;
 
 /**
- * @author Rust 
+ * @author Rust
  * 测试SequenceFile
  */
 public class TestSetFile {
@@ -18,9 +18,8 @@ public class TestSetFile {
 	/**
 	 * 写入MapFile变形 --> ArrayFile
 	 * SequenceFile key-->value 类似于Map
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@Test
 	public void write() throws Throwable {
@@ -29,14 +28,14 @@ public class TestSetFile {
 		conf.set("fs.defaultFS", "hdfs://s100:8020");
 		FileSystem fs = FileSystem.get(conf);
 		Writer writer = new SetFile.Writer(conf, fs,
-				"hdfs://s100:8020/user/setfile.set", IntWritable.class,CompressionType.NONE);
-		
+				"hdfs://s100:8020/user/setfile.set", IntWritable.class, CompressionType.NONE);
+
 
 		// 写入数据
 		for (int i = 100; i < 200; i++) {
-			writer.append(new IntWritable( i));
+			writer.append(new IntWritable(i));
 		}
-		
+
 		writer.close();
 		System.out.println("done");
 	}
@@ -44,9 +43,8 @@ public class TestSetFile {
 	/**
 	 * 写入MapFile变形 --> ArrayFile
 	 * SequenceFile key-->value 类似于Map
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@Test
 	public void read() throws Throwable {
@@ -54,21 +52,19 @@ public class TestSetFile {
 		Configuration conf = new Configuration();
 		conf.set("fs.defaultFS", "hdfs://s100:8020");
 		FileSystem fs = FileSystem.get(conf);
-		SetFile.Reader reader = new SetFile.Reader(fs, 
+		SetFile.Reader reader = new SetFile.Reader(fs,
 				"hdfs://s100:8020/user/setfile.set", conf);
 
 		Text value = new Text();
-		
+
 		// 读数据
-		while(reader.next(value)) {
-			System.out.println("val:"+value);
+		while (reader.next(value)) {
+			System.out.println("val:" + value);
 		}
 		reader.close();
-		
+
 		System.out.println("done");
 	}
-	
-	
-	
+
 
 }

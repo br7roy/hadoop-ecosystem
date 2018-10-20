@@ -68,7 +68,8 @@
 
 	 @Override
 	 protected void cleanup(Context context) throws IOException, InterruptedException {
-		 // System.out.println(System.currentTimeMillis() + "MyMaxTempMapper.cleanup():" + address.getHostAddress() + ":" + this.hashCode());
+		 // System.out.println(System.currentTimeMillis() + "MyMaxTempMapper.cleanup():" + address.getHostAddress() +
+		 // ":" + this.hashCode());
 		 context.getCounter("m", Util.getGroup("MaxMapper.cleanup", this.hashCode())).increment(1);
 
 	 }

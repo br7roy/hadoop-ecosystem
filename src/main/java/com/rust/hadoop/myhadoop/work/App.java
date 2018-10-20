@@ -7,19 +7,19 @@
  package com.rust.hadoop.myhadoop.work;
 
  import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.lib.db.DBConfiguration;
-import org.apache.hadoop.mapreduce.lib.db.DBInputFormat.NullDBWritable;
-import org.apache.hadoop.mapreduce.lib.db.DBOutputFormat;
-import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+ import org.apache.hadoop.fs.FileSystem;
+ import org.apache.hadoop.fs.Path;
+ import org.apache.hadoop.io.Text;
+ import org.apache.hadoop.mapreduce.Job;
+ import org.apache.hadoop.mapreduce.lib.db.DBConfiguration;
+ import org.apache.hadoop.mapreduce.lib.db.DBInputFormat.NullDBWritable;
+ import org.apache.hadoop.mapreduce.lib.db.DBOutputFormat;
+ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
+ import java.io.IOException;
+ import java.time.LocalDateTime;
 
  /**
   * Author:      Rust

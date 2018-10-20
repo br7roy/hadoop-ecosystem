@@ -16,16 +16,15 @@ import org.junit.Test;
 
 /**
  * 映射文件
- * 
+ *
  * @author Rust
  */
 public class TestMapFIle {
 
 	/**
 	 * 写入MapFile
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -50,9 +49,8 @@ public class TestMapFIle {
 
 	/**
 	 * 读取MapFile
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -78,9 +76,8 @@ public class TestMapFIle {
 
 	/**
 	 * 写入MapFile
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -93,8 +90,9 @@ public class TestMapFIle {
 		FileSystem fs = FileSystem.get(conf);
 		Path path = new Path("hdfs://s100:8020/user/mymap.map");
 		// Path path = new Path("file:///d:/mymap.map");
-		DefaultCodec defaultCodec=ReflectionUtils.newInstance(DefaultCodec.class, conf);
-		 MapFile.Writer mWriter = new Writer(conf, path,Writer.compression(CompressionType.BLOCK, defaultCodec),Writer.keyClass(IntWritable.class),Writer.valueClass(Text.class));
+		DefaultCodec defaultCodec = ReflectionUtils.newInstance(DefaultCodec.class, conf);
+		MapFile.Writer mWriter = new Writer(conf, path, Writer.compression(CompressionType.BLOCK, defaultCodec),
+				Writer.keyClass(IntWritable.class), Writer.valueClass(Text.class));
 		// 通过修改配置参数，修改索引间隔
 /*		MapFile.Writer mWriter = new Writer(conf, fs,
 				// "file:///d:/mymap.map",
@@ -113,9 +111,8 @@ public class TestMapFIle {
 
 	/**
 	 * 读取MapFile
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -137,9 +134,8 @@ public class TestMapFIle {
 
 	/**
 	 * 读取最近记录
-	 * 
+	 *
 	 * @throws Throwable
-	 * 
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -150,7 +146,7 @@ public class TestMapFIle {
 		FileSystem fs = FileSystem.get(conf);
 		Path path = new Path("hdfs://s100:8020/user/mymap.map");
 		MapFile.Reader reader = new Reader(fs, "hdfs://s100:8020/user/mymap.map", conf);
-		IntWritable key = (IntWritable) reader.getClosest(new IntWritable(8), new Text(),true);
+		IntWritable key = (IntWritable) reader.getClosest(new IntWritable(8), new Text(), true);
 		System.out.println(key);
 
 		Text tmpVal = new Text();
@@ -162,8 +158,9 @@ public class TestMapFIle {
 
 	/**
 	 * 准备sequenceFile
-	 * @throws Throwable 
-	 * @throws IllegalArgumentException 
+	 *
+	 * @throws Throwable
+	 * @throws IllegalArgumentException
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -181,11 +178,12 @@ public class TestMapFIle {
 		System.out.println("done");
 
 	}
-	
+
 	/**
 	 * 修复seqFile文件  重建index, 生成mapFile
-	 * @throws Throwable 
-	 * @throws IllegalArgumentException 
+	 *
+	 * @throws Throwable
+	 * @throws IllegalArgumentException
 	 */
 	@Test
 	public void fixSeqFile() throws IllegalArgumentException, Throwable {
@@ -197,9 +195,6 @@ public class TestMapFIle {
 
 		System.out.println("done");
 	}
-	
-	
-	
 
-	
+
 }

@@ -14,29 +14,33 @@
   */
  public class City {
 
-		 private String name;
-		 private String code;
-		 private List<County> county;
-		 public void setName(String name) {
-			 this.name = name;
-		 }
-		 public String getName() {
-			 return name;
-		 }
+	 private String name;
+	 private String code;
+	 private List<County> county;
 
-		 public void setCode(String code) {
-			 this.code = code;
-		 }
-		 public String getCode() {
-			 return code;
-		 }
+	 public void setName(String name) {
+		 this.name = name;
+	 }
 
-		 public void setCounty(List<County> county) {
-			 this.county = county;
-		 }
-		 public List<County> getCounty() {
-			 return county;
-		 }
+	 public String getName() {
+		 return name;
+	 }
+
+	 public void setCode(String code) {
+		 this.code = code;
+	 }
+
+	 public String getCode() {
+		 return code;
+	 }
+
+	 public void setCounty(List<County> county) {
+		 this.county = county;
+	 }
+
+	 public List<County> getCounty() {
+		 return county;
+	 }
 
 	 @Override
 	 public String toString() {

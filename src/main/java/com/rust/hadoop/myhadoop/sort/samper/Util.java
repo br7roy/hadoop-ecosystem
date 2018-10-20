@@ -10,11 +10,12 @@
  import java.net.UnknownHostException;
 
  /**
-  * @author      Rust
+  * @author Rust
   */
  public class Util {
 	 /**
 	  * 获得组名
+	  *
 	  * @param groupName
 	  * @param hash
 	  * @return

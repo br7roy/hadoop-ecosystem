@@ -48,7 +48,8 @@
 		 //设置输出格式类
 		 job.setOutputFormatClass(DBOutputFormat.class);
 		 // 设置输出格式参数
-		 DBConfiguration.configureDB(conf,"com.mysql.jdbc.Driver","jdbc:mysql://192.168.231.1:3306/test","root","root");
+		 DBConfiguration.configureDB(conf, "com.mysql.jdbc.Driver", "jdbc:mysql://192.168.231.1:3306/test", "root",
+				 "root");
 		 DBOutputFormat.setOutput(job, "words", "word", "num");
 
 

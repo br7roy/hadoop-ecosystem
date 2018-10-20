@@ -17,8 +17,8 @@
   * Description: 自定义分区函数
   */
  public class MyPartitioner extends Partitioner<Text, IntWritable> {
-  @Override
-  public int getPartition(Text text, IntWritable intWritable, int numPartitions) {
-   return 0;
-  }
+	 @Override
+	 public int getPartition(Text text, IntWritable intWritable, int numPartitions) {
+		 return 0;
+	 }
  }

@@ -22,7 +22,8 @@
 
 
 	 @Override
-	 protected void map(LongWritable key, UserDBWritable value, Context context) throws IOException, InterruptedException {
+	 protected void map(LongWritable key, UserDBWritable value, Context context) throws IOException,
+			 InterruptedException {
 		 int id = value.getId();
 		 String name = value.getName();
 		 int age = value.getAge();

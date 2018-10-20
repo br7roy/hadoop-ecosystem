@@ -7,11 +7,11 @@
  package com.rust.hadoop.myhadoop.inputformat.seq;
 
  import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Reducer;
+ import org.apache.hadoop.io.Text;
+ import org.apache.hadoop.mapreduce.Reducer;
 
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
+ import java.io.IOException;
+ import java.util.concurrent.atomic.AtomicInteger;
 
  /**
   * FileName:    WordCountReducer

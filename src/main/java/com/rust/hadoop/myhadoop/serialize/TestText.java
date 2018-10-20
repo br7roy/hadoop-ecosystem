@@ -17,7 +17,6 @@ public class TestText {
 
 	/**
 	 * @throws Exception
-	 * 
 	 */
 	@SuppressWarnings("static-access")
 	@Test
@@ -33,7 +32,7 @@ public class TestText {
 
 	/**
 	 * 串行和反串行
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	@Test
@@ -59,7 +58,7 @@ public class TestText {
 		dos.close();
 		out.close();
 
-		System.out.println("elapse:"+(System.nanoTime()-start));
+		System.out.println("elapse:" + (System.nanoTime() - start));
 		// 读取文件
 		FileInputStream fis = new FileInputStream("d:/data.data");
 		byte[] bs = new byte[fis.available()];
@@ -87,7 +86,7 @@ public class TestText {
 
 	@Test
 	public void javaSerialize() {
-		
+
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -104,12 +103,10 @@ public class TestText {
 			System.out.println(e.getMessage());
 		}
 		System.out.println("done");
-		
-		
-		
-		
+
+
 	}
-	
+
 	@Test
 	public void javaSerialize2() {
 		long start = System.nanoTime();
@@ -127,7 +124,7 @@ public class TestText {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		System.out.println("elapse:"+(System.nanoTime()-start));
+		System.out.println("elapse:" + (System.nanoTime() - start));
 		System.out.println("done");
 	}
 

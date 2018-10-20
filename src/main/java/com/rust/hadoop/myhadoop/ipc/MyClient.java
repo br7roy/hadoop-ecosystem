@@ -22,7 +22,8 @@
 		 Configuration conf = new Configuration();
 		 HelloWorldService proxy = null;
 		 try {
-			 proxy = RPC.getProxy(HelloWorldService.class, HelloWorldService.versionID, new InetSocketAddress("localhost",
+			 proxy = RPC.getProxy(HelloWorldService.class, HelloWorldService.versionID, new InetSocketAddress(
+			 		"localhost",
 							 8888),
 					 conf);
 		 } catch (Exception e) {
