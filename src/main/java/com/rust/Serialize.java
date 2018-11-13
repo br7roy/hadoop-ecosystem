@@ -22,10 +22,11 @@ public class Serialize {
 				.build();
 
 
+		// 通过Writer写入文件到磁盘
 		DatumWriter<User> userDatumWriter = new SpecificDatumWriter<User>(User.class);
 		DataFileWriter<User> dataFileWriter = new DataFileWriter<User>(userDatumWriter);
 
-
+		// avro数据文件
 		dataFileWriter.create(user.getSchema(), new File("users.avro"));
 		dataFileWriter.append(user);
 		dataFileWriter.append(user2);
