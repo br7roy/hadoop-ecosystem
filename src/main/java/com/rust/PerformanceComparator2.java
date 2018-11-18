@@ -9,6 +9,7 @@
  import avro.shaded.com.google.common.base.Stopwatch;
  import com.rust.myavro.model.MyUser;
  import com.rust.myavro.model.User;
+ import com.rust.myavro.model.UserProtos;
  import org.apache.avro.file.DataFileReader;
  import org.apache.avro.io.DatumReader;
  import org.apache.avro.specific.SpecificDatumReader;
@@ -32,6 +33,7 @@
 		 performanceComparator.javaSerial();
 		 performanceComparator.writableSerial();
 		 performanceComparator.avroSerial();
+		 performanceComparator.protoBufDeSerial();
 	 }
 
 	 /**
@@ -48,7 +50,7 @@
 				 ObjectInputStream oos = new ObjectInputStream(fos)) {
 			 MyUser user;
 			 for (int i = 0; i < max; i++) {
-				  user = (MyUser) oos.readObject();
+				 user = (MyUser) oos.readObject();
 			 }
 
 			 stopwatch.stop();
@@ -92,12 +94,24 @@
 		 // avro 数据文件
 		 User next;
 		 while (dataFileReader.hasNext()) {
-			  next = dataFileReader.next();
+			 next = dataFileReader.next();
 		 }
 		 dataFileReader.close();
 		 stopwatch.stop();
 		 System.out.println("avroSerial,elapse:" + stopwatch
 		 );
+	 }
+
+	 private void protoBufDeSerial() throws Exception {
+		 Stopwatch stopwatch = new Stopwatch();
+		 stopwatch.start();
+		 FileInputStream fis = new FileInputStream("users.protobuf_serialize");
+
+		 for (int i = 0; i < max; i++) {
+			 UserProtos.User user = UserProtos.User.parseDelimitedFrom(fis);
+		 }
+		 stopwatch.stop();
+		 System.out.println("protoBufDeserialize,elapse:" + stopwatch);
 	 }
 
  }

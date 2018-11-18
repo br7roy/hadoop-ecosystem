@@ -9,6 +9,7 @@
  import avro.shaded.com.google.common.base.Stopwatch;
  import com.rust.myavro.model.MyUser;
  import com.rust.myavro.model.User;
+ import com.rust.myavro.model.UserProtos;
  import org.apache.avro.file.DataFileWriter;
  import org.apache.avro.io.DatumWriter;
  import org.apache.avro.specific.SpecificDatumWriter;
@@ -31,6 +32,7 @@
 		 performanceComparator.javaSerial();
 		 performanceComparator.writableSerial();
 		 performanceComparator.avroSerial();
+		 performanceComparator.protobuf();
 	 }
 
 	 /**
@@ -41,7 +43,6 @@
 	 private void javaSerial() throws IOException {
 		 Stopwatch stopwatch = new Stopwatch();
 		 stopwatch.start();
-
 		 try (
 				 FileOutputStream fos = new FileOutputStream("users.java");
 				 // ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -96,8 +97,8 @@
 		 Stopwatch stopwatch = new Stopwatch();
 		 stopwatch.start();
 		 try (
-		 		FileOutputStream fos = new FileOutputStream("users.avro_serialize");
-			  // ByteArrayOutputStream bos = new ByteArrayOutputStream()
+				 FileOutputStream fos = new FileOutputStream("users.avro_serialize");
+				 // ByteArrayOutputStream bos = new ByteArrayOutputStream()
 		 ) {
 			 DatumWriter<User> datumWriter = new SpecificDatumWriter<>(User.class);
 			 DataFileWriter<User> dataFileWriter = new DataFileWriter<>(datumWriter);
@@ -117,6 +118,30 @@
 					 // + bos.toByteArray().length
 			 );
 		 }
+	 }
+
+	 /**
+	  * ProtoBuf串行化
+	  *
+	  * @throws Exception
+	  */
+	 public void protobuf() throws Exception {
+		 Stopwatch stopwatch = new Stopwatch();
+		 stopwatch.start();
+		 FileOutputStream fos = new FileOutputStream("users.protobuf_serialize");
+		 for (int i = 0; i < max; i++) {
+			 UserProtos.User user = UserProtos.User.newBuilder()
+					 .setName("tom" + i)
+					 .setFavoriteNumber(i)
+					 .setFavoriteColor("red" + i)
+					 .build();
+			 user.writeDelimitedTo(fos);
+		 }
+		 fos.close();
+		 stopwatch.stop();
+		 System.out.println("ProtoBufSerial,elapse:" + stopwatch
+				 // + ",size:"+ bos.toByteArray().length
+		 );
 	 }
 
  }
