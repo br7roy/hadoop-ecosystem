@@ -7,14 +7,14 @@
  package com.rust;
 
  import org.junit.After;
- import org.junit.Before;
- import org.junit.Test;
+import org.junit.Before;
+import org.junit.Test;
 
- import java.sql.Connection;
- import java.sql.DriverManager;
- import java.sql.PreparedStatement;
- import java.sql.ResultSet;
- import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
  /**
   * @author Takho
@@ -99,5 +99,25 @@
 			 statement.execute("drop table hive1.users2");
 		 }
 	 }
+	 /**
+	  * 查询分区表
+	  *
+	  * @throws Exception
+	  */
+	 @Test
+	 public void findPartition() throws Exception {
+		 try (Statement statement = conn.createStatement()) {
+			 ResultSet resultSet = statement.executeQuery("select * from hive1.test5");
+			 while (resultSet.next()) {
+				 int id = resultSet.getInt(1);
+				 String name = resultSet.getString(2);
+				 int age = resultSet.getInt(3);
+				 String province = resultSet.getString(4);
+				 String city = resultSet.getString(5);
+				 System.out.println(id + "，" + name + "，" + age + "," + province + "," + city);
+			 }
 
+
+		 }
+	 }
  }
