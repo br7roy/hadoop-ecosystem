@@ -332,7 +332,7 @@ public class TestSequenceFile {
 		conf.set("fs.defaultFS", "hdfs://s100:8020");
 		FileSystem fs = FileSystem.get(conf);
 		Path path = new Path("hdfs://s100:8020/user/myseq3.seq");
-		SequenceFile.Reader reader = new SequenceFile.Reader(fs, path, conf);
+		SequenceFile.Reader reader = new SequenceFile.Reader(fs.getConf(), SequenceFile.Reader.file(path));
 		// SequenceFile.Reader reader = new SequenceFile.Reader( conf,new
 		// Option("rw","read"));
 
