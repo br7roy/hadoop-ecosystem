@@ -12,11 +12,11 @@ trait Init {
   protected var sc: SparkContext = _
 
   def init(): Unit = {
-    val hc = SparkSession.builder().appName("spark shell training").enableHiveSupport().master("spark://s100:7077").getOrCreate()
-    val conf = new SparkConf().setAppName("spark shell training").setMaster("spark://s100:7077")
-    val sc = new SparkContext(conf)
+    val hc = SparkSession.builder().appName("spark shell training").enableHiveSupport().master("local[2]").getOrCreate()
+    //    val conf = new SparkConf().setAppName("spark shell training").setMaster("local[2]")
+    //    val sc = new SparkContext(conf)
     this.spark = hc
-    this.sc = sc
+    this.sc = spark.sparkContext
   }
 
 }
