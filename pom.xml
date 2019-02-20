@@ -30,9 +30,19 @@
             <version>1.6.0</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.flume.flume-ng-sinks</groupId>
+            <artifactId>flume-hive-sink</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
             <version>3.4.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hive.hcatalog</groupId>
+            <artifactId>hive-hcatalog-streaming</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
