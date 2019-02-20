@@ -10,9 +10,7 @@ object Text19 extends Init {
     init()
     val x = sc.parallelize(1 to 20)
     val y = sc.parallelize(10 to 30)
-    val z = operational
-
-    def operational = {
+    val z  = {
 
 
       //  返回两个RDD相同的元素
