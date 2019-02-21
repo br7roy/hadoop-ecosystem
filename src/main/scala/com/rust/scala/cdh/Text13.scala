@@ -3,6 +3,7 @@ package com.rust.scala.cdh
 import org.apache.spark.sql.SaveMode
 
 /**
+  * 读取json文件解析
   * @author Rust
   */
 object Text13 extends Init with App {

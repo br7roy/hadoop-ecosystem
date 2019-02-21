@@ -1,5 +1,6 @@
 package com.rust.scala.cdh
 
+import org.apache.spark.sql.{Encoder, Row}
 import org.apache.spark.sql.types._
 
 /**
@@ -44,6 +45,13 @@ object Text16 extends Init {
     val shfields = for (a <- r) yield StructField(a.asInstanceOf[String], StringType, nullable = true)
     val shType = StructType(shfields)
     val supDF = spark.createDataFrame(sup.rdd, shType)
+
+
+    //  使用隐式转换，从rdd转换DataSet
+    case class People(name: String, age: BigInt, gender: String)
+    implicit val encoders: Encoder[Row] = org.apache.spark.sql.Encoders.kryo[Row]
+    implicit val impParam: Encoder[People] = org.apache.spark.sql.Encoders.kryo[People]
+    spark.createDataset(sup.rdd).as[People]
 
 
     prdDF.createOrReplaceTempView("prd")
