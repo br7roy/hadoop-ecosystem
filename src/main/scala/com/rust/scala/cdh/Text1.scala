@@ -76,12 +76,12 @@ object Text1 extends Init {
   }
 
   def addToSet(set: mutable.HashSet[String], word: String): mutable.HashSet[String] = {
-    set.add(word)
-    set
+    set += word
   }
 
   def mergePartitionSets(s1: mutable.HashSet[String], s2: mutable.HashSet[String]): mutable.HashSet[String] = {
-    for (elem <- s1) s2.add(elem)
-    s2
+/*    for (elem <- s1) s2.add(elem)
+    s2*/
+    s1 ++= s2
   }
 }
