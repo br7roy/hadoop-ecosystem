@@ -5,6 +5,8 @@ import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.time.Time
 
 /**
+  * Exapmle
+  *
   * @author Rust
   */
 object SocketWindowWordCount {
