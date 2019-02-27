@@ -1,4 +1,4 @@
-package com.rust;
+package com.rust.spark.java;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

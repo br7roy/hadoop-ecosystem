@@ -4,7 +4,7 @@
   * Author:   Takho
   * Date:     19/1/2 21:19
   */
- package com.rust;
+ package com.rust.spark.java;
 
  import org.apache.spark.SparkConf;
  import org.apache.spark.api.java.JavaPairRDD;
@@ -15,6 +15,7 @@
  import org.apache.spark.api.java.function.PairFunction;
  import scala.Tuple2;
 
+ import java.io.ByteArrayInputStream;
  import java.util.Arrays;
  import java.util.Iterator;
  import java.util.List;
@@ -53,7 +54,7 @@
 		 // Save the word count back out to a text file, causing evaluation.
 		 counts.saveAsTextFile("D:/out.txt");
 
-
+		 new ByteArrayInputStream("{\"name\":\"tom\",\"age\":\"12\"}".getBytes());
 	 }
 
  }
