@@ -19,14 +19,18 @@
 package com.rust.flink.java;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.time.Time;
+import org.apache.flink.util.Collector;
 
 /**
  * 处理无界数据的WordCount
+ * 使用Tuple2作为数据聚集模型
  * Java版本
  * Source为nc
  * Sink为logger
@@ -67,19 +71,32 @@ public class StreamingJob {
 		 * http://flink.apache.org/docs/latest/apis/streaming/index.html
 		 *
 		 */
-		DataStreamSource<String> dss = env.socketTextStream("s101", 9000);
-		SingleOutputStreamOperator<Tuple2<String, Integer>> operator = dss.flatMap((FlatMapFunction<String, String>) (text, collector) -> {
-			String[] split = text.split("\\s");
-			for (String s : split) {
-				collector.collect(s);
+		DataStreamSource<String> dss = env.socketTextStream("s100", 9000);
+		SingleOutputStreamOperator<Tuple2<String, Integer>> operator = dss.flatMap(new FlatMapFunction<String, String>() {
+			@Override
+			public void flatMap(String text, Collector<String> collector) throws Exception {
+				String[] split = text.split("\\s");
+				for (String s : split) {
+					collector.collect(s);
+				}
 			}
 		})
-				.map(k -> new Tuple2<>(k, 1))
+				.map(new MapFunction<String, Tuple2<String, Integer>>() {
+					@Override
+					public Tuple2<String, Integer> map(String s) throws Exception {
+						return new Tuple2<>(s, 1);
+					}
+				})
 				.keyBy(0)
 				.timeWindow(Time.seconds(5))
-				.reduce((x, y) -> new Tuple2<>(x.f0, x.f1 + y.f1));
+				.reduce(new ReduceFunction<Tuple2<String, Integer>>() {
+					@Override
+					public Tuple2<String, Integer> reduce(Tuple2<String, Integer> x, Tuple2<String, Integer> y) throws Exception {
+						return new Tuple2<>(x.f0, x.f1 + y.f1);
+					}
+				});
 		operator.print().setParallelism(1);
 		// execute program
-		env.execute("Flink Streaming Java API");
+		env.execute("java stream word count with tuple2");
 	}
 }

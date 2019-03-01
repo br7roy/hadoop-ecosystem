@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.rust.flink</groupId>
-    <artifactId>flink-1.7.2</artifactId>
+    <artifactId>flink1.7.2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>flink-1.7.2</name>
+    <name>flink1.7.2</name>
     <url>https://br7roy.github.io/</url>
 
     <properties>
@@ -16,7 +16,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <flink.scala.version>1.4.0</flink.scala.version>
-        <flink.java.version>1.7.1</flink.java.version>
+        <flink.java.version>1.7.2</flink.java.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.11</scala.version>
         <slf4j.version>1.7.7</slf4j.version>
@@ -25,39 +25,52 @@
     </properties>
 
     <dependencies>
-        <!--    <dependency>
-              <groupId>org.apache.flink</groupId>
-              <artifactId>flink-java</artifactId>
-              <version>${flink.version}</version>
-            </dependency>-->
-        <!--    <dependency>
-              <groupId>org.apache.flink</groupId>
-              <artifactId>flink-streaming-java_2.11</artifactId>
-              <version>${flink.version}</version>
-            </dependency>-->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-core</artifactId>
-            <version>${flink.scala.version}</version>
+            <version>${flink.java.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-clients_${scala.binary.version}</artifactId>
-            <version>${flink.scala.version}</version>
-            <scope>runtime</scope>
+            <version>${flink.java.version}</version>
+            <!--<scope>runtime</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-scala_${scala.binary.version}</artifactId>
             <version>${flink.scala.version}</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
             <version>${flink.scala.version}</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
+        </dependency>
+
+
+        <!-- batch example-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-wikiedits_2.11</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+        <!-- Apache Flink dependencies -->
+        <!-- These dependencies are provided, because they should not be packaged into the JAR file. -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-java</artifactId>
+            <version>${flink.java.version}</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
+            <version>${flink.java.version}</version>
+            <!--<scope>provided</scope>-->
         </dependency>
 
 
@@ -66,7 +79,7 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
         </dependency>
 
         <!--    <dependency>
@@ -102,27 +115,7 @@
                 </dependency>-->
 
 
-        <!-- batch example-->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-wikiedits_2.11</artifactId>
-            <version>1.4.0</version>
-        </dependency>
 
-        <!-- Apache Flink dependencies -->
-        <!-- These dependencies are provided, because they should not be packaged into the JAR file. -->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-java</artifactId>
-            <version>${flink.java.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
-            <version>${flink.java.version}</version>
-            <scope>provided</scope>
-        </dependency>
 
 
         <!-- Add connector dependencies here. They must be in the default scope (compile). -->
@@ -142,13 +135,13 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.7</version>
-            <scope>runtime</scope>
+            <!--<scope>runtime</scope>-->
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
-            <scope>runtime</scope>
+            <!--<scope>runtime</scope>-->
         </dependency>
 
         <dependency>
@@ -440,13 +433,13 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-java</artifactId>
                     <version>${flink.java.version}</version>
-                    <scope>compile</scope>
+                    <!--<scope>compile</scope>-->
                 </dependency>
                 <dependency>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
                     <version>${flink.java.version}</version>
-                    <scope>compile</scope>
+                    <!--<scope>compile</scope>-->
                 </dependency>
             </dependencies>
         </profile>
@@ -457,47 +450,47 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <dependencies>
-                <dependency>
+ <!--               <dependency>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-core</artifactId>
-                    <version>${flink.scala.version}</version>
-                </dependency>
+                    <version>${flink.java.version}</version>
+                </dependency>-->
                 <dependency>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-clients_${scala.binary.version}</artifactId>
-                    <version>${flink.scala.version}</version>
-                    <scope>provided</scope>
+                    <version>${flink.java.version}</version>
+                    <!--<scope>provided</scope>-->
                 </dependency>
 
                 <dependency>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-scala_${scala.binary.version}</artifactId>
                     <version>${flink.scala.version}</version>
-                    <scope>provided</scope>
+                    <!--<scope>provided</scope>-->
                 </dependency>
                 <dependency>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
                     <version>${flink.scala.version}</version>
-                    <scope>provided</scope>
+                    <!--<scope>provided</scope>-->
                 </dependency>
                 <dependency>
                     <groupId>org.scala-lang</groupId>
                     <artifactId>scala-library</artifactId>
                     <version>${scala.version}</version>
-                    <scope>provided</scope>
+                    <!--<scope>provided</scope>-->
                 </dependency>
                 <dependency>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-log4j12</artifactId>
                     <version>${slf4j.version}</version>
-                    <scope>provided</scope>
+                    <!--<scope>provided</scope>-->
                 </dependency>
                 <dependency>
                     <groupId>log4j</groupId>
                     <artifactId>log4j</artifactId>
                     <version>${log4j.version}</version>
-                    <scope>provided</scope>
+                    <!--<scope>provided</scope>-->
                 </dependency>
             </dependencies>
             <build>
