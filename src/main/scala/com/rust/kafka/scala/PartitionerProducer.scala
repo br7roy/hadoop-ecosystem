@@ -2,7 +2,6 @@ package com.rust.kafka.scala
 
 import java.util.Properties
 
-import kafka.producer.DefaultPartitioner
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
 /**
@@ -11,7 +10,7 @@ import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
   * @author Takho
   *
   */
-object PartitionerProducer extends DefaultPartitioner {
+object PartitionerProducer {
   def main(args: Array[String]): Unit = {
     val props: Properties = new Properties
     //Set acknowledgements for producer requests.
