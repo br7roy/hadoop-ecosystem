@@ -1,0 +1,57 @@
+ /*
+  * Package com.rust.kafka
+  * FileName: SimpleConsumer
+  * Author:   Takho
+  * Date:     19/3/4 20:45
+  */
+ package com.rust.kafka;
+
+ import kafka.consumer.Consumer;
+ import kafka.consumer.ConsumerConfig;
+ import kafka.consumer.ConsumerIterator;
+ import kafka.consumer.KafkaStream;
+ import kafka.javaapi.consumer.ConsumerConnector;
+ import kafka.message.MessageAndMetadata;
+
+ import java.util.HashMap;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Properties;
+
+ /**
+  * 一个简单的消费者
+  * @author Takho
+  */
+ public class SimpleConsumer {
+	 public static void main(String[] args) {
+
+
+		 Properties properties = new Properties();
+		 properties.put("zookeeper.connect", "s101:2181");
+		 properties.put("group.id", "g1");
+		 properties.put("zookeeper.session.timeout.ms", "5000");
+		 properties.put("zookeeper.sync.time.ms", "250");
+		 properties.put("auto.commit.interval.ms", "1000");
+
+		 // 创建消费者配置对象
+		 ConsumerConfig consumerConfig = new ConsumerConfig(properties);
+
+		 // 创建连接器
+		 ConsumerConnector connector = Consumer.createJavaConsumerConnector(consumerConfig);
+
+		 Map<String, Integer> topic = new HashMap<>();
+		 topic.put("test3", 1);
+		 Map<String, List<KafkaStream<byte[], byte[]>>> streamMap = connector.createMessageStreams(topic);
+		 List<KafkaStream<byte[], byte[]>> test3 = streamMap.get("test3");
+
+		 for (KafkaStream<byte[], byte[]> metadata : test3) {
+			 ConsumerIterator<byte[], byte[]> iterator = metadata.iterator();
+			 while (iterator.hasNext()) {
+				 MessageAndMetadata<byte[], byte[]> next = iterator.next();
+				 byte[] bs = next.message();
+				 System.out.println("message from topic:" + new String(bs));
+			 }
+		 }
+		 connector.shutdown();
+	 }
+ }
