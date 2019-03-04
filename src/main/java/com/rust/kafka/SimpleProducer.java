@@ -46,12 +46,13 @@
 
 		 props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		 props.put("bootstrap.servers", "s101:9092");
+		 // 生产者类型	异步
 		 props.put("producer.type", "async");
 		 producer = new KafkaProducer<>(props);
 
 		 ProducerRecord<String, String> record = new ProducerRecord<>("test3", Integer.toString(1), "HelloWorld from win7 client");
 
-		 producer.send(record);
+		 producer.send(record,(m,e)-> System.out.println("ack !!!"));
 		 producer.close();
 		 System.out.println("over");
 

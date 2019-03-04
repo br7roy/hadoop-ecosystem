@@ -2,7 +2,7 @@ package com.rust.kafka.scala
 
 import java.util.Properties
 
-import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
+import org.apache.kafka.clients.producer.{Callback, KafkaProducer, ProducerRecord, RecordMetadata}
 
 /**
   * 使用分区函数让producer来发送消息
@@ -41,7 +41,11 @@ object PartitionerProducer {
 
     for (i <- 1 to 100) {
       val record = new ProducerRecord[String, String]("test3", "2partition message:" + i)
-      producer.send(record)
+      producer.send(record,new Callback {
+        override def onCompletion(metadata: RecordMetadata, exception: Exception): Unit = {
+          println("ack")
+        }
+      })
     }
     println("over")
 
