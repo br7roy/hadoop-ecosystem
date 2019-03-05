@@ -21,10 +21,9 @@
 
  /**
   * 一个简单的消费者
-  *
   * @author Takho
   */
- public class SimpleConsumer {
+ public class SimpleConsumer2 {
 	 public static void main(String[] args) {
 
 
@@ -38,6 +37,7 @@
 
 		 //	删除节点偏移量消费信息，这样就从头开始读取数据了
 		 ZkUtils.maybeDeletePath("s101:2181", "/consumers/" + "g1");
+
 		 // 创建消费者配置对象
 		 ConsumerConfig consumerConfig = new ConsumerConfig(properties);
 
