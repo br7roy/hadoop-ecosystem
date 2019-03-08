@@ -5,7 +5,7 @@ import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.KafkaUtils
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
-import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.apache.spark.streaming.{Minutes, Seconds, StreamingContext}
 
 /**
   * @author Takho
@@ -13,17 +13,19 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
 object MySparkKafkaDemo {
   def main(args: Array[String]) {
 
-    val conf = new SparkConf().setAppName("KafkaWordCount")
+    val conf = new SparkConf().setAppName("KafkaWordCount").setMaster("local[4]")
     val ssc = new StreamingContext(conf, Seconds(2))
     ssc.checkpoint("checkpoint")
 
+    val gId = "g1"
+    val topicName = "words_topic"
 
-    val topics = Array("topicA", "topicB")
+    val topics = Array(topicName)
     val kafkaParams = Map[String, Object](
-      "bootstrap.servers" -> "localhost:9092,anotherhost:9092",
+      "bootstrap.servers" -> "s101:9092,s102:9092",
       "key.deserializer" -> classOf[StringDeserializer],
       "value.deserializer" -> classOf[StringDeserializer],
-      "group.id" -> "use_a_separate_group_id_for_each_stream",
+      "group.id" -> gId,
       "auto.offset.reset" -> "latest",
       "enable.auto.commit" -> (false: java.lang.Boolean)
     )
@@ -32,11 +34,10 @@ object MySparkKafkaDemo {
       PreferConsistent,
       Subscribe[String, String](topics, kafkaParams)
     )
-    val pairs = stream.map(record => (record.key, record.value))
+    val lines = stream.map(record => record.value)
 
-    val wordCounts = pairs.reduceByKey(_ + _)
+    val wordCounts = lines.flatMap(_.split(" ")).map(r => (r, 1)).reduceByKeyAndWindow(_ + _, _ - _, Seconds(5), Seconds(2), 2)
 
-    // Print the first ten elements of each RDD generated in this DStream to the console
     wordCounts.print()
     ssc.start() // Start the computation
     ssc.awaitTermination() // Wait for the computation to terminate

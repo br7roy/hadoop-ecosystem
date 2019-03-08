@@ -13,13 +13,14 @@ object PbkMapper {
   def main(args: Array[String]) {
     if (args.length < 3) {
       println("Usage: [sparkmaster] [inputfile] [outputfile]")
-      exit(1)
+      sys.exit(1)
     }
     val master = args(0)
     val inputFile = args(1)
     val outputFile = args(2)
     val sc = new SparkContext(master, "BasicParseJsonWithJackson", System.getenv("SPARK_HOME"))
     val input = sc.textFile(inputFile)
+    case class Person(name: String, age: Int, lovesPandas: Boolean)
 
     // Parse it into a specific case class. We use mapPartitions beacuse:
     // (a) ObjectMapper is not serializable so we either create a singleton object encapsulating ObjectMapper
