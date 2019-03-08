@@ -14,7 +14,7 @@ object MySparkKafkaDemo {
   def main(args: Array[String]) {
 
     val conf = new SparkConf().setAppName("KafkaWordCount").setMaster("local[4]")
-    val ssc = new StreamingContext(conf, Seconds(2))
+    val ssc = new StreamingContext(conf, Seconds(1))
     ssc.checkpoint("checkpoint")
 
     val gId = "g1"
