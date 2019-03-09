@@ -5,12 +5,12 @@ import org.apache.spark.SparkConf
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.KafkaUtils
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
-import org.apache.spark.streaming.{Minutes, Seconds, StreamingContext}
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /**
   * @author Takho
   */
-object MySparkKafkaDemo {
+object MySparkKafkaWindow {
   def main(args: Array[String]) {
 
     val conf = new SparkConf().setAppName("KafkaWordCount").setMaster("local[4]")
@@ -36,7 +36,7 @@ object MySparkKafkaDemo {
     )
     val lines = stream.map(record => record.value)
 
-    val wordCounts = lines.flatMap(_.split(" ")).map(r => (r, 1)).reduceByKey(_+_)
+    val wordCounts = lines.flatMap(_.split(" ")).map(r => (r, 1)).reduceByKeyAndWindow(_ + _, _ - _, Seconds(5), Seconds(2), 2)
 
     wordCounts.print()
     ssc.start() // Start the computation
