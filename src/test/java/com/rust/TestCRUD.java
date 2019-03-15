@@ -101,9 +101,13 @@ import java.io.IOException;
 	 @Test
 	 public void createTable() throws Exception {
 		 //	创建表描述符
-		 HTableDescriptor desc = new HTableDescriptor("ns1:t1");
+		 HTableDescriptor desc = new HTableDescriptor("ns1:t2");
 		 //	创建列描述符
 		 HColumnDescriptor colDesc = new HColumnDescriptor(Bytes.toBytes("cf1"));
+		 // 添加列族描述符
+		 desc.addFamily(colDesc);
+		 //	创建列描述符
+		  colDesc = new HColumnDescriptor(Bytes.toBytes("cf2"));
 		 // 添加列族描述符
 		 desc.addFamily(colDesc);
 
