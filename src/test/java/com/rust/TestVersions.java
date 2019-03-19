@@ -16,6 +16,7 @@
  import org.apache.hadoop.hbase.client.ConnectionFactory;
  import org.apache.hadoop.hbase.client.Get;
  import org.apache.hadoop.hbase.client.Result;
+ import org.apache.hadoop.hbase.client.Scan;
  import org.apache.hadoop.hbase.client.Table;
  import org.apache.hadoop.hbase.util.Bytes;
  import org.junit.After;
@@ -96,6 +97,7 @@
 		 Table table = connection.getTable(TableName.valueOf("ns1:t1"));
 
 		 Get get = new Get(Bytes.toBytes("row2"));
+		 Scan scan = new Scan(get);
 		 get.addFamily(Bytes.toBytes("cf1"));
 		 // get.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
 		 get.setMaxVersions(3);
