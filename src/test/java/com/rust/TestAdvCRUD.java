@@ -159,7 +159,7 @@ public class TestAdvCRUD {
 		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
 		//	关闭自动清理，减少RPC调用服务端
 		table.setAutoFlushTo(false);
-		int times = 1000000;
+		int times = 100;
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < times; i++) {
 			Put put = new Put(Bytes.toBytes("row" + i));
@@ -171,4 +171,25 @@ public class TestAdvCRUD {
 		table.close();
 		System.out.printf("elapse:%s", System.currentTimeMillis() - start + "ms");
 	}
+
+	/**
+	 * 原子性的更改值得
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void casPut() throws Exception {
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+		Put put = new Put(Bytes.toBytes("row2"));
+		put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"), Bytes.toBytes("casVal"));
+		table.checkAndPut(Bytes.toBytes("row2"), Bytes.toBytes("cf1"), Bytes.toBytes("name"), Bytes.toBytes("tom2"), put);
+		table.close();
+	}
+
+
+
+
+
+
+
 }
