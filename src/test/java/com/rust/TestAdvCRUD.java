@@ -19,6 +19,7 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -153,17 +154,20 @@ public class TestAdvCRUD {
 
 	/**
 	 * 测试客户端缓冲区
+	 * put 带缓存
 	 */
 	@Test
-	public void clientBuffer() throws Exception {
+	public void putWithManualCommit() throws Exception {
 		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
 		//	关闭自动清理，减少RPC调用服务端
 		table.setAutoFlushTo(false);
-		int times = 100;
+		int times = 1000;
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < times; i++) {
 			Put put = new Put(Bytes.toBytes("row" + i));
 			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"), Bytes.toBytes("tom" + i));
+			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("age"), Bytes.toBytes(i));
+			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("no"), Bytes.toBytes(i % 100));
 			table.put(put);
 		}
 		//	批量提交数据至RegionServer
@@ -199,10 +203,101 @@ public class TestAdvCRUD {
 		boolean exists = table.exists(get);
 		System.out.println(exists);
 
-
 	}
 
 
+	/**
+	 * 扫描器
+	 * 不用缓存，每一次迭代，发送一次RPC请求至server
+	 */
+	@Test
+	public void scan() throws Exception {
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+		Scan scan = new Scan(Bytes.toBytes("row33"), Bytes.toBytes("row77"));
+		ResultScanner scanner = table.getScanner(scan);
+		scanner.spliterator().forEachRemaining(k -> {
+			List<Cell> columnCells = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+			columnCells.forEach(cell -> {
+				byte[] valueArray = cell.getValueArray();
+				String val = Bytes.toString(valueArray, cell.getValueOffset(), cell.getValueLength());
+				System.out.println(val);
+			});
+
+		});
+/*
+		scanner.forEach(k->{
+
+			String val = Bytes.toString(k.getva)
+		});
+
+		boolean exists = table.exists(get);
+		System.out.println(exists);
+*/
+
+	}
+
+	/**
+	 * 扫描器
+	 * 使用缓存,每次请求，返回一组数据
+	 */
+	@Test
+	public void scanWithCache() throws Exception {
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+		Scan scan = new Scan(Bytes.toBytes("row33"), Bytes.toBytes("row77"));
+		scan.setCaching(1);
+		scan.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+		long start = System.currentTimeMillis();
+		ResultScanner scanner = table.getScanner(scan);
+		scanner.spliterator().forEachRemaining(k -> {
+			List<Cell> columnCells = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+			columnCells.forEach(cell -> {
+				byte[] valueArray = cell.getValueArray();
+				String val = Bytes.toString(valueArray, cell.getValueOffset(), cell.getValueLength());
+				System.out.println(val);
+			});
+
+		});
+		table.close();
+		System.out.printf("elapse:%s", System.currentTimeMillis() - start + "ms");
+	}
 
 
+	/**
+	 * batch操作
+	 */
+	@Test
+	public void batch() throws Exception {
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+		Scan scan = new Scan(Bytes.toBytes("row33"), Bytes.toBytes("row77"));
+		scan.setCaching(1000);
+		scan.setBatch(1);
+		scan.addFamily(Bytes.toBytes("cf1"));
+		long start = System.currentTimeMillis();
+		ResultScanner scanner = table.getScanner(scan);
+		scanner.forEach(k -> {
+			List<Cell> names = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+			names.forEach(cell -> {
+				String name = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				System.out.println(name);
+			});
+
+			List<Cell> ages = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("age"));
+			ages.forEach(cell -> {
+				String agea = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				System.out.println(agea);
+			});
+			List<Cell> nos = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("no"));
+			nos.forEach(cell -> {
+				String noa = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				System.out.println(noa);
+			});
+
+			try {
+				table.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.printf("elapse:%s", System.currentTimeMillis() - start + "ms");
+		});
+	}
 }
