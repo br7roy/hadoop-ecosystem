@@ -270,34 +270,43 @@ public class TestAdvCRUD {
 		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
 		Scan scan = new Scan(Bytes.toBytes("row33"), Bytes.toBytes("row77"));
 		scan.setCaching(1000);
-		scan.setBatch(1);
+		scan.setBatch(2);
 		scan.addFamily(Bytes.toBytes("cf1"));
 		long start = System.currentTimeMillis();
 		ResultScanner scanner = table.getScanner(scan);
 		scanner.forEach(k -> {
 			List<Cell> names = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
 			names.forEach(cell -> {
-				String name = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
-				System.out.println(name);
+				// String name = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				// System.out.println(name);
+				byte[] bytes = CellUtil.cloneValue(cell);
+				String string = Bytes.toString(bytes);
+				System.out.print("name:" + string);
 			});
 
 			List<Cell> ages = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("age"));
 			ages.forEach(cell -> {
-				String agea = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
-				System.out.println(agea);
+				// int age = Bytes.toInt(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				// System.out.println("age:" + age);
+				byte[] bytes = CellUtil.cloneValue(cell);
+				int string = Bytes.toInt(bytes);
+				System.out.print("age:" + string);
 			});
 			List<Cell> nos = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("no"));
 			nos.forEach(cell -> {
-				String noa = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
-				System.out.println(noa);
+				// String noa = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				// System.out.println(noa);
+				byte[] bytes = CellUtil.cloneValue(cell);
+				int string = Bytes.toInt(bytes);
+				System.out.print("no:" + string);
 			});
-
-			try {
-				table.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			System.out.printf("elapse:%s", System.currentTimeMillis() - start + "ms");
+			System.out.println();
 		});
+		try {
+			table.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.printf("elapse:%s", System.currentTimeMillis() - start + "ms");
 	}
 }
