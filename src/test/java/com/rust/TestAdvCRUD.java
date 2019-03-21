@@ -186,10 +186,20 @@ public class TestAdvCRUD {
 		table.close();
 	}
 
+	/**
+	 * 校验数据是否存在
+	 */
+	@Test
+	public void checkExists() throws Exception {
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+		Get get = new Get(Bytes.toBytes("row2"));
+		get.setTimeRange(1545321149770L, 1553162228879L);
+		get.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+		boolean exists = table.exists(get);
+		System.out.println(exists);
 
 
-
-
+	}
 
 
 }
