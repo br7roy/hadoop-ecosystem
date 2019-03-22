@@ -19,8 +19,17 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.filter.BinaryComparator;
+import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
+import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.FilterList.Operator;
+import org.apache.hadoop.hbase.filter.RegexStringComparator;
+import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
+import org.apache.hadoop.hbase.filter.SubstringComparator;
+import org.apache.hadoop.hbase.filter.ValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.After;
 import org.junit.Before;
@@ -28,6 +37,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Takho
@@ -153,17 +163,20 @@ public class TestAdvCRUD {
 
 	/**
 	 * 测试客户端缓冲区
+	 * put 带缓存
 	 */
 	@Test
-	public void clientBuffer() throws Exception {
+	public void putWithManualCommit() throws Exception {
 		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
 		//	关闭自动清理，减少RPC调用服务端
 		table.setAutoFlushTo(false);
-		int times = 100;
+		int times = 1000;
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < times; i++) {
 			Put put = new Put(Bytes.toBytes("row" + i));
 			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"), Bytes.toBytes("tom" + i));
+			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("age"), Bytes.toBytes(i));
+			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("no"), Bytes.toBytes(i % 100));
 			table.put(put);
 		}
 		//	批量提交数据至RegionServer
@@ -173,7 +186,7 @@ public class TestAdvCRUD {
 	}
 
 	/**
-	 * 原子性的更改值得
+	 * 原子性的更改值
 	 *
 	 * @throws Exception
 	 */
@@ -186,6 +199,7 @@ public class TestAdvCRUD {
 		table.close();
 	}
 
+
 	/**
 	 * 校验数据是否存在
 	 */
@@ -197,6 +211,210 @@ public class TestAdvCRUD {
 		get.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
 		boolean exists = table.exists(get);
 		System.out.println(exists);
+
+	}
+
+
+	/**
+	 * 扫描器
+	 * 不用缓存，每一次迭代，发送一次RPC请求至server
+	 */
+	@Test
+	public void scan() throws Exception {
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+		Scan scan = new Scan(Bytes.toBytes("row33"), Bytes.toBytes("row77"));
+		ResultScanner scanner = table.getScanner(scan);
+		scanner.spliterator().forEachRemaining(k -> {
+			List<Cell> columnCells = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+			columnCells.forEach(cell -> {
+				byte[] valueArray = cell.getValueArray();
+				String val = Bytes.toString(valueArray, cell.getValueOffset(), cell.getValueLength());
+				System.out.println(val);
+			});
+
+		});
+/*
+		scanner.forEach(k->{
+
+			String val = Bytes.toString(k.getva)
+		});
+
+		boolean exists = table.exists(get);
+		System.out.println(exists);
+*/
+
+	}
+
+	/**
+	 * 扫描器
+	 * 使用缓存,每次请求，返回一组数据
+	 */
+	@Test
+	public void scanWithCache() throws Exception {
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+		Scan scan = new Scan(Bytes.toBytes("row33"), Bytes.toBytes("row77"));
+		scan.setCaching(1);
+		scan.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+		long start = System.currentTimeMillis();
+		ResultScanner scanner = table.getScanner(scan);
+		scanner.spliterator().forEachRemaining(k -> {
+			List<Cell> columnCells = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+			columnCells.forEach(cell -> {
+				byte[] valueArray = cell.getValueArray();
+				String val = Bytes.toString(valueArray, cell.getValueOffset(), cell.getValueLength());
+				System.out.println(val);
+			});
+
+		});
+		table.close();
+		System.out.printf("elapse:%s", System.currentTimeMillis() - start + "ms");
+	}
+
+
+	/**
+	 * batch操作
+	 */
+	@Test
+	public void batch() throws Exception {
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+		Scan scan = new Scan(Bytes.toBytes("row33"), Bytes.toBytes("row77"));
+		scan.setCaching(1000);
+		scan.setBatch(2);
+		scan.addFamily(Bytes.toBytes("cf1"));
+		long start = System.currentTimeMillis();
+		ResultScanner scanner = table.getScanner(scan);
+		scanner.forEach(k -> {
+			List<Cell> names = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("name"));
+			names.forEach(cell -> {
+				// String name = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				// System.out.println(name);
+				byte[] bytes = CellUtil.cloneValue(cell);
+				String string = Bytes.toString(bytes);
+				System.out.print("name:" + string);
+			});
+
+			List<Cell> ages = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("age"));
+			ages.forEach(cell -> {
+				// int age = Bytes.toInt(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				// System.out.println("age:" + age);
+				byte[] bytes = CellUtil.cloneValue(cell);
+				int string = Bytes.toInt(bytes);
+				System.out.print("age:" + string);
+			});
+			List<Cell> nos = k.getColumnCells(Bytes.toBytes("cf1"), Bytes.toBytes("no"));
+			nos.forEach(cell -> {
+				// String noa = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+				// System.out.println(noa);
+				byte[] bytes = CellUtil.cloneValue(cell);
+				int string = Bytes.toInt(bytes);
+				System.out.print("no:" + string);
+			});
+			System.out.println();
+		});
+		try {
+			table.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.printf("elapse:%s", System.currentTimeMillis() - start + "ms");
+	}
+
+
+	@Test
+	public void simpleFilter() throws Exception {
+
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+
+		Scan scan = new Scan();
+
+		byte[] cf1 = Bytes.toBytes("cf1");
+		byte[] age = Bytes.toBytes("age");
+
+		ValueFilter f1 = new ValueFilter(CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(20)));
+		ValueFilter f2 = new ValueFilter(CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(50)));
+
+		FilterList fall = new FilterList(Operator.MUST_PASS_ONE, f1, f2);
+
+		//	依赖列对比器
+		ValueFilter filter = new ValueFilter(CompareOp.EQUAL, new SubstringComparator("88"));
+
+		SingleColumnValueFilter filter1 = new SingleColumnValueFilter(cf1, age, CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(30)));
+
+		scan.setFilter(fall);
+		ResultScanner scanner = table.getScanner(scan);
+		scanner.iterator().forEachRemaining(result -> {
+			Map<byte[], byte[]> map = result.getFamilyMap(Bytes.toBytes("cf1"));
+			map.forEach((key, value) -> System.out.println(Bytes.toString(key) + ":" + Bytes.toInt(value)));
+		});
+
+
+	}
+
+	/**
+	 * 复杂过滤器组合
+	 */
+	@Test
+	public void complexFilter() throws Exception {
+
+		byte[] cf1 = Bytes.toBytes("cf1");
+		byte[] names = Bytes.toBytes("name");
+		byte[] age = Bytes.toBytes("age");
+		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
+
+		Scan scan = new Scan();
+
+		//	name like 't%'t开头
+		SingleColumnValueFilter ftl = new SingleColumnValueFilter(cf1, names, CompareOp.EQUAL, new RegexStringComparator("^q"));
+
+		//	age > 20
+		SingleColumnValueFilter ftr = new SingleColumnValueFilter(cf1, age, CompareOp.GREATER, new BinaryComparator(Bytes.toBytes(20)));
+
+		//	ftl and ftr
+		FilterList fTop = new FilterList(Operator.MUST_PASS_ALL, ftl, ftr);
+
+		//	name like '%t' t结尾
+		SingleColumnValueFilter fbl = new SingleColumnValueFilter(cf1, names, CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes("somet")));
+
+		//	age <= 20
+		SingleColumnValueFilter fbr = new SingleColumnValueFilter(cf1, age, CompareOp.LESS_OR_EQUAL, new BinaryComparator(Bytes.toBytes(20)));
+
+
+		//	fbl and fbr
+		FilterList fBottom = new FilterList(Operator.MUST_PASS_ALL, fbl, fbr);
+
+		//	fTop or fBottom
+		FilterList fall = new FilterList(Operator.MUST_PASS_ONE, fTop, fBottom);
+
+		scan.setFilter(fall);
+
+
+		ResultScanner scanner = table.getScanner(scan);
+
+		scanner.iterator().forEachRemaining(result -> {
+			System.out.println(result);
+/*			Map<byte[], byte[]> map = result.getFamilyMap(Bytes.toBytes("cf1"));
+			final int[] omg = new int[]{0};
+			final boolean[] flg = new boolean[]{false};
+			final StringBuilder appender = new StringBuilder(",");
+
+			map.forEach((key, value) -> {
+						if (omg[0]++ % 3 == 0) {
+							if (!appender.toString().equals(",")) {
+								appender.delete(0, appender.length());
+								appender.append(",");
+							}
+							System.out.println("\r\n");
+
+						} else {
+							appender.delete(0, appender.length());
+						}
+
+						System.out.print(Bytes.toString(key) + ":" + Bytes.toInt(value) + appender);
+
+
+					}
+			);*/
+		});
 
 
 	}
