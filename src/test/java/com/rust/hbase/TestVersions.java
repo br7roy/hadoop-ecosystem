@@ -4,7 +4,7 @@
   * Author:   Takho
   * Date:     19/3/19 0:51
   */
- package com.rust;
+ package com.rust.hbase;
 
  import org.apache.hadoop.conf.Configuration;
  import org.apache.hadoop.hbase.Cell;

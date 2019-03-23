@@ -4,7 +4,7 @@
  * Author:   Takho
  * Date:     19/3/19 0:51
  */
-package com.rust;
+package com.rust.hbase;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.Cell;
@@ -26,6 +26,11 @@ import org.apache.hadoop.hbase.filter.BinaryComparator;
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.FilterList.Operator;
+import org.apache.hadoop.hbase.filter.FirstKeyOnlyFilter;
+import org.apache.hadoop.hbase.filter.InclusiveStopFilter;
+import org.apache.hadoop.hbase.filter.KeyOnlyFilter;
+import org.apache.hadoop.hbase.filter.PageFilter;
+import org.apache.hadoop.hbase.filter.PrefixFilter;
 import org.apache.hadoop.hbase.filter.RegexStringComparator;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.filter.SubstringComparator;
@@ -320,104 +325,10 @@ public class TestAdvCRUD {
 	}
 
 
-	@Test
-	public void simpleFilter() throws Exception {
-
-		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
-
-		Scan scan = new Scan();
-
-		byte[] cf1 = Bytes.toBytes("cf1");
-		byte[] age = Bytes.toBytes("age");
-
-		ValueFilter f1 = new ValueFilter(CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(20)));
-		ValueFilter f2 = new ValueFilter(CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(50)));
-
-		FilterList fall = new FilterList(Operator.MUST_PASS_ONE, f1, f2);
-
-		//	依赖列对比器
-		ValueFilter filter = new ValueFilter(CompareOp.EQUAL, new SubstringComparator("88"));
-
-		SingleColumnValueFilter filter1 = new SingleColumnValueFilter(cf1, age, CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(30)));
-
-		scan.setFilter(fall);
-		ResultScanner scanner = table.getScanner(scan);
-		scanner.iterator().forEachRemaining(result -> {
-			Map<byte[], byte[]> map = result.getFamilyMap(Bytes.toBytes("cf1"));
-			map.forEach((key, value) -> System.out.println(Bytes.toString(key) + ":" + Bytes.toInt(value)));
-		});
 
 
-	}
-
-	/**
-	 * 复杂过滤器组合
-	 */
-	@Test
-	public void complexFilter() throws Exception {
-
-		byte[] cf1 = Bytes.toBytes("cf1");
-		byte[] names = Bytes.toBytes("name");
-		byte[] age = Bytes.toBytes("age");
-		HTable table = (HTable) connection.getTable(TableName.valueOf("ns1:t1"));
-
-		Scan scan = new Scan();
-
-		//	name like 't%'t开头
-		SingleColumnValueFilter ftl = new SingleColumnValueFilter(cf1, names, CompareOp.EQUAL, new RegexStringComparator("^q"));
-
-		//	age > 20
-		SingleColumnValueFilter ftr = new SingleColumnValueFilter(cf1, age, CompareOp.GREATER, new BinaryComparator(Bytes.toBytes(20)));
-
-		//	ftl and ftr
-		FilterList fTop = new FilterList(Operator.MUST_PASS_ALL, ftl, ftr);
-
-		//	name like '%t' t结尾
-		SingleColumnValueFilter fbl = new SingleColumnValueFilter(cf1, names, CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes("somet")));
-
-		//	age <= 20
-		SingleColumnValueFilter fbr = new SingleColumnValueFilter(cf1, age, CompareOp.LESS_OR_EQUAL, new BinaryComparator(Bytes.toBytes(20)));
 
 
-		//	fbl and fbr
-		FilterList fBottom = new FilterList(Operator.MUST_PASS_ALL, fbl, fbr);
-
-		//	fTop or fBottom
-		FilterList fall = new FilterList(Operator.MUST_PASS_ONE, fTop, fBottom);
-
-		scan.setFilter(fall);
-
-
-		ResultScanner scanner = table.getScanner(scan);
-
-		scanner.iterator().forEachRemaining(result -> {
-			System.out.println(result);
-/*			Map<byte[], byte[]> map = result.getFamilyMap(Bytes.toBytes("cf1"));
-			final int[] omg = new int[]{0};
-			final boolean[] flg = new boolean[]{false};
-			final StringBuilder appender = new StringBuilder(",");
-
-			map.forEach((key, value) -> {
-						if (omg[0]++ % 3 == 0) {
-							if (!appender.toString().equals(",")) {
-								appender.delete(0, appender.length());
-								appender.append(",");
-							}
-							System.out.println("\r\n");
-
-						} else {
-							appender.delete(0, appender.length());
-						}
-
-						System.out.print(Bytes.toString(key) + ":" + Bytes.toInt(value) + appender);
-
-
-					}
-			);*/
-		});
-
-
-	}
 
 
 }
