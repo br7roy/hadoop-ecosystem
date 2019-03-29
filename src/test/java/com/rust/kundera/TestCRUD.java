@@ -75,7 +75,7 @@ public class TestCRUD {
 	public void batchInsert() {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 1000; i++) {
 			T1 t = new T1();
 			t.setRowKey("row" + i);
 			t.setNo("no" + i);
