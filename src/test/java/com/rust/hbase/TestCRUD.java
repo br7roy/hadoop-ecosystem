@@ -151,17 +151,17 @@ public class TestCRUD {
 
 	@Test
 	public void putList() throws Exception {
-		Table table = connection.getTable(TableName.valueOf("ns1:t1"));
+		Table table = connection.getTable(TableName.valueOf("ns1:t4"));
 		List<Put> list = Lists.newArrayList();
 		Put put = null;
-		for (int i = 0; i < 100; i++) {
+		for (int i = 900000; i < 1000000; i++) {
 			put = new Put(Bytes.toBytes("row" + i));
-			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("no"), Bytes.toBytes("no001"));
+			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("no"), Bytes.toBytes(i));
 			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("name"), Bytes.toBytes("tom" + i));
 			put.addColumn(Bytes.toBytes("cf1"), Bytes.toBytes("age"), Bytes.toBytes(10 + i));
 			list.add(put);
 		}
-		table.batch(list);
+		table.batch(list,new Object[100000]);
 		table.close();
 	}
 
