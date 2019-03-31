@@ -10,7 +10,9 @@ package com.rust.hbase.mr;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -42,6 +44,14 @@ public class WordCountApp {
 		FileOutputFormat.setOutputPath(job, new Path(args[0]));// 输出路径
 
 		job.setInputFormatClass(TableInputFormat.class);
+
+
+
+		Scan scan = new Scan();
+		TableMapReduceUtil.initTableMapperJob("ns1:t2", scan, WordCountMapper.class, Text.class, IntWritable.class, job);
+		conf.set("hbase.zookeeper.quorum", "s101:2181,s102:2181,s103:2181");
+
+
 
 		job.getConfiguration().set(TableInputFormat.INPUT_TABLE, "ns1:t2");
 
