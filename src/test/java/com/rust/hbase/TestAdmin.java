@@ -9,10 +9,14 @@ package com.rust.hbase;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.ClusterStatus;
 import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.io.compress.Compression.Algorithm;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,5 +63,28 @@ public class TestAdmin {
 		ClusterStatus clusterStatus = admin.getClusterStatus();
 		int regionsCount = clusterStatus.getRegionsCount();
 		System.out.println("regionsCount = " + regionsCount);
+	}
+
+	/**
+	 * 使用snappy压缩
+	 */
+	@Test
+	public void createTable()throws Exception {
+		HTableDescriptor desc = new HTableDescriptor(TableName.valueOf("ns1:t6"));
+		HColumnDescriptor family = new HColumnDescriptor(Bytes.toBytes("cf1"));
+		family.setCompressionType(Algorithm.SNAPPY);
+		desc.addFamily(family);
+		admin.createTable(desc);
+	}
+
+	/**
+	 * 性能优化之预拆分
+	 */
+	@Test
+	public void preSplit()throws Exception {
+		HTableDescriptor t = new HTableDescriptor(TableName.valueOf("ns1:t8"));
+		HColumnDescriptor hColumnDescriptor = new HColumnDescriptor("cf1");
+		t.addFamily(hColumnDescriptor);
+		admin.createTable(t, Bytes.toBytes("row-200"), Bytes.toBytes("row-800"), 5);
 	}
 }
