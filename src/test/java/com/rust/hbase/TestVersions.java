@@ -7,24 +7,24 @@
  package com.rust.hbase;
 
  import org.apache.hadoop.conf.Configuration;
- import org.apache.hadoop.hbase.Cell;
- import org.apache.hadoop.hbase.HBaseConfiguration;
- import org.apache.hadoop.hbase.NamespaceDescriptor;
- import org.apache.hadoop.hbase.TableName;
- import org.apache.hadoop.hbase.client.Admin;
- import org.apache.hadoop.hbase.client.Connection;
- import org.apache.hadoop.hbase.client.ConnectionFactory;
- import org.apache.hadoop.hbase.client.Get;
- import org.apache.hadoop.hbase.client.Result;
- import org.apache.hadoop.hbase.client.Scan;
- import org.apache.hadoop.hbase.client.Table;
- import org.apache.hadoop.hbase.util.Bytes;
- import org.junit.After;
- import org.junit.Before;
- import org.junit.Test;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.NamespaceDescriptor;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.zookeeper.ZKConfig;
+import org.apache.hadoop.hbase.zookeeper.ZKConfig.ZKClusterKey;
+import org.junit.Test;
 
- import java.io.IOException;
- import java.util.List;
+import java.io.IOException;
+import java.util.List;
 
  /**
   * @author Takho
@@ -33,14 +33,19 @@
 	 private Connection connection;
 	 private Admin admin;
 
-	 @Before
+	 @Test
+	 public void test12() throws Exception{
+		 ZKClusterKey zkClusterKey = ZKConfig.transformClusterKey("s101:2181");
+		 System.out.println(zkClusterKey);
+	 }
+	 // @Before
 	 public void setUp() throws IOException {
 		 Configuration configuration = HBaseConfiguration.create();
 		 connection = ConnectionFactory.createConnection(configuration);
 		 admin = connection.getAdmin();
 	 }
 
-	 @After
+	 // @After
 	 public void tearDown() throws IOException {
 		 admin.close();
 		 connection.close();
