@@ -1,4 +1,4 @@
-package com.rust.kundera;
+package com.rust.protobuf;
 
 import static org.junit.Assert.assertTrue;
 
