@@ -10,6 +10,7 @@
 - [x] kundera
 - [x] protobuf
 - [x] spark
+- [x] flink
 - [x] avro
 - [x] flume
 - [x] spark-python
