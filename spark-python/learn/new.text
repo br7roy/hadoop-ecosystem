@@ -1,0 +1,17 @@
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	login
+2019-05-05	192.168.180.115	uid123	shanghai	www.702.com	logout
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	order
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	pay
+2019-05-05	192.168.180.115	uid123	shanghai	www.703.com	repay
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	reverse
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	login
+2019-05-05	192.168.180.115	uid123	shanghai	www.702.com	logout
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	order
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	login
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	logout
+2019-05-05	192.168.180.115	uid123	shanghai	www.702.com	logout
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	order
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	pay
+2019-05-05	192.168.180.115	uid123	shanghai	www.703.com	reverse
+2019-05-05	192.168.180.115	uid123	shanghai	www.701.com	repay
+2019-05-05	192.168.180.115	uid123	shanghai	www.703.com	reverse
