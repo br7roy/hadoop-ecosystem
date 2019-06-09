@@ -1,5 +1,5 @@
 # hadoop-ecosystem
-记录我学习hadoop生态系统设计的框架
+记录我学习hadoop生态系统涉及的框架
 
 
 - [x] hadoop
