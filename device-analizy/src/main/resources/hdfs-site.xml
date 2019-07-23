@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+	<!-- About service -->
+	<property>
+		<name>dfs.nameservices</name>
+		<value>probd</value>
+		<description>For all clusters.</description>
+	</property>
+
+	<!-- About namenode -->
+	<property>
+		<name>dfs.ha.namenodes.probd</name>
+		<value>nn1,nn2</value>
+	</property>
+	<property>
+		<name>dfs.namenode.rpc-address.probd.nn1</name>
+		<value>probd01:8020</value>
+	</property>
+	<property>
+		<name>dfs.namenode.rpc-address.probd.nn2</name>
+		<value>probd02:8020</value>
+	</property>	
+	<property>
+		<name>dfs.namenode.http-address.probd.nn1</name>
+		<value>probd01:50070</value>
+	</property>
+	<property>
+		<name>dfs.namenode.http-address.probd.nn2</name>
+		<value>probd02:50070</value>
+	</property>	
+	<property>
+		<name>dfs.namenode.name.dir</name>
+		<value>
+			file:///probd/probd-0.3.5/hadoop-2.6.3/name
+		</value>
+	</property>
+	<property>
+		<name>dfs.namenode.shared.edits.dir</name>
+		<value>qjournal://probd01:8485;probd02:8485;probd03:8485/probd</value>
+	</property>
+
+	<!-- About journal node -->
+	<property>
+		<name>dfs.journalnode.edits.dir</name>
+		<value>/probd/probd-0.3.5/hadoop-2.6.3/qjm</value>
+	</property>
+
+	<!-- About sshfence -->
+	<property>
+		<name>dfs.ha.fencing.methods</name>
+		<value>shell(/bin/true)</value>
+	</property>
+	<property>
+		<name>dfs.ha.fencing.ssh.connect-timeout</name>
+		<value>10</value>
+	</property>
+	<property>
+		<name>dfs.ha.fencing.ssh.private-key-files</name>
+		<value>/root/.ssh/id_rsa</value>
+	</property>
+
+	<!-- About datanode -->
+	<property>
+		<name>dfs.datanode.data.dir</name>
+		<value>
+			file:///probd/probd-0.3.5/hadoop-2.6.3/data/dfs/data
+		</value>
+	</property>
+	<property>
+        <name>dfs.datanode.handler.count</name> 
+        <value>30</value>
+        <description>thread count for request</description>
+    </property> 
+    <property>
+		<name>dfs.datanode.max.xcievers</name>
+		<value>4096</value>
+	</property>
+    <property>
+		<name>dfs.datanode.du.reserved</name>
+		<value>10737418240</value>
+		<description>10G</description>
+	</property>
+	<property>
+		<name>dfs.datanode.directoryscan.threads</name>
+		<value>3</value>
+		<description>
+			How many threads should the threadpool used to compile reports
+			for volumes in parallel have.
+		</description>
+	</property>
+	
+    <!--
+	<property>
+		<name>dfs.datanode.ipc.address</name>
+		<value>node102.probd:50020</value>
+	</property>
+	<property>
+		<name>dfs.datanode.http.address</name> 
+		<value>node102.probd:50075</value>
+	</property>
+	-->
+	
+	<!-- About client failover -->
+	<property>
+		<name>dfs.client.failover.proxy.provider.probd</name>
+		<value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+	</property>
+
+	<!-- About failover -->
+	<property>
+		<name>dfs.ha.automatic-failover.enabled</name>
+		<value>true</value>
+	</property>
+
+	<!-- About replication -->
+	<!--
+	<property>
+		<name>dfs.replication.max</name>
+		<value>3</value>
+	</property>
+	-->
+	<property>
+		<name>dfs.replication</name>
+		<value>3</value>
+	</property>
+
+	<!--
+	<property>
+		<name>dfs.datanode.ipc.address</name>
+		<value>node102.probd:50020</value>
+	</property>
+	<property>
+		<name>dfs.datanode.http.address</name> 
+		<value>node102.probd:50075</value>
+	</property>
+	-->
+	
+	<!-- About web hdfs -->
+	<property>
+		<name>dfs.webhdfs.enabled</name>
+		<value>true</value>
+	</property>	
+
+    <!-- About dfsadmin -->
+    <property>
+		<name>dfs.hosts.exclude</name>
+		<value>/probd/probd-0.3.5/hadoop-2.6.3/etc/hadoop/nodes-exclude</value>
+	</property>
+
+    <!-- About balance -->
+    <property>
+		<name>dfs.balance.bandwidthPerSec</name>
+		<value>10485760</value>
+		<description>
+			Specifies the maximum bandwidth that each datanode can utilize
+			for the balancing purpose in term of the number of bytes per second.
+			the current value is 10M/S,default is 1M/S
+		</description>
+	</property>
+	
+	<!-- add: 1    namenode:time out-->	
+	<property>
+        <name>dfs.qjournal.write-txns.timeout.ms</name>
+        <value>90000</value>
+    </property>
+	<property>
+        <name>dfs.qjournal.start-segment.timeout.ms</name>
+        <value>120000</value>
+    </property>
+    <property>
+        <name>dfs.qjournal.select-input-streams.timeout.ms</name>
+        <value>120000</value>
+    </property>
+	<property>
+         <name>ha.zookeeper.session-timeout.ms</name>
+         <value>120000</value>
+    </property>	
+	<property>
+          <name>dfs.qjournal.prepare-recovery.timeout.ms</name>
+          <value>600000000</value>
+    </property>
+	<property>
+           <name>dfs.qjournal.accept-recovery.timeout.ms</name>
+           <value>600000000</value>
+    </property>
+	<property>
+           <name>dfs.qjournal.finalize-segment.timeout.ms</name>
+           <value>600000000</value>
+    </property>
+    <property>
+            <name>dfs.qjournal.get-journal-state.timeout.ms</name>
+            <value>600000000</value>
+    </property>
+    <property>
+            <name>dfs.qjournal.new-epoch.timeout.ms</name>
+            <value>600000000</value>
+    </property>         
+    <property>  
+            <name>dfs.image.transfer.bandwidthPerSec</name>  
+            <value>1048576</value>  
+    </property> 
+    <property>
+        <name>dfs.namenode.handler.count</name> 
+        <value>30</value>
+        <description>thread count for request</description>
+    </property>
+    <property>
+          <name>dfs.datanode.socket.write.timeout</name>
+          <value>10800000</value>
+    </property>
+    <property>
+          <name>dfs.client.socket-timeout</name>
+           <value>600000</value>
+    </property>
+    
+	<!--
+	<property>
+        <name>dfs.datanode.fsdataset.volume.choosing.policy</name>
+		<value>org.apache.hadoop.hdfs.server.datanode.fsdataset.AvailableSpaceVolumeChoosingPolicy</value>
+   </property>
+   <property> 
+        <name>dfs.datanode.available-space-volume-choosing-policy.balanced-space-threshold</name>
+        <value>32212254720</value>
+   </property>
+   <property>
+        <name>dfs.datanode.available-space-volume-choosing-policy.balanced-space-preference-fraction</name>
+        <value>1</value>
+   </property>   -->
+	
+</configuration>

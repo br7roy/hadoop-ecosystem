@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+	<!-- About cluster -->
+        <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://probd</value>
+                <description>the name of the default file system</description>
+        </property>
+
+	<!-- About zookeeper -->
+	<property>
+		<name>ha.zookeeper.quorum</name>
+		<value>probd01:2181,probd02:2181,probd03:2181</value>
+	</property>
+
+	<!-- About directory -->
+	<property> 
+		<name>hadoop.tmp.dir</name>
+		<value>/probd/probd-0.3.5/hadoop-2.6.3/data/tmp</value>
+		<description>a base for other temporary directories</description>
+	</property>
+
+	<!-- About native lib -->
+    <property>
+		<name>io.native.lib.available</name>
+        <value>true</value>
+        <description> </description>
+    </property>
+
+	<!-- About compression -->
+	<property>
+		<name>io.compression.codecs</name>
+		<value>
+			org.apache.hadoop.io.compress.GzipCodec,
+			org.apache.hadoop.io.compress.DefaultCodec,
+			org.apache.hadoop.io.compress.BZip2Codec,
+			org.apache.hadoop.io.compress.SnappyCodec
+		</value>
+	</property>
+
+	<!-- About proxy user -->
+	<property>
+		<name>hadoop.proxyuser.root.hosts</name>
+		<value>*</value>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.root.users</name>
+		<value>*</value>
+	</property>
+	<property>
+		<name>hadoop.proxyuser.root.groups</name>
+		<value>*</value>
+	</property>
+
+	<property>
+		<name>ipc.client.connect.max.retries</name>
+		<value>100</value>
+		<description>Indicates the number of retries a client will make to establish a server connection.</description>
+	</property>
+	<property>
+		<name>ipc.client.connect.retry.interval</name>
+		<value>10000</value>
+		<description>Indicates the number of milliseconds a client will wait forbefore retrying to establish a server connection.</description>
+	</property>
+	
+	<!-- About logfile  -->
+	<property>
+		<name>hadoop.logfile.size</name>
+		<value>5242880</value>
+		<description>The max size of each log file. It is 5M now.</description>
+	</property>
+	<property>
+		<name>hadoop.logfile.count</name>
+		<value>10</value>
+		<description>The max number of log files</description>
+	</property>
+		
+	<!-- add 1:  fs trash-->
+	<property> 
+         <name>fs.trash.interval</name> 
+         <value>1440</value> 
+         <description>Number of minutes between trash checkpoints. If zero, the trash feature is disabled. </description> 
+    </property>	
+	<!-- add 2:  ha monitor time -->
+    <property>
+        <name>ha.health-monitor.rpc-timeout.ms</name>
+        <value>180000</value>
+    </property>	
+	<!-- 3-->
+	<property>
+           <name>ipc.client.connect.timeout</name>
+           <value>180000</value>
+    </property>
+	<property>
+           <name>ha.zookeeper.session-timeout.ms</name>
+           <value>60000</value>
+           <description>ms</description>
+    </property>
+	<property>
+           <name>ha.failover-controller.cli-check.rpc-timeout.ms</name>
+           <value>60000</value>
+    </property> 
+	<property>
+           <name>ipc.client.connection.maxidletime</name>
+           <value>60000</value>
+    </property> 
+	<property>
+             <name>ipc.client.connect.max.retries</name>
+             <value>100</value>
+               <description>Indicates the number of retries a client will make to establish a server connection.</description>
+     </property>
+     <property>
+             <name>ipc.client.connect.retry.interval</name>
+             <value>10000</value>
+             <description>Indicates the number of milliseconds a client will wait for before retrying to establish a server connection.</description>
+     </property>
+	
+</configuration>
