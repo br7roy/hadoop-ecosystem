@@ -191,4 +191,16 @@ myhive/target/test-classes/com/rust/TestCRUD.class
 /elasticsearch-pure/out
 /elasticsearch-pure/target
 /elasticsearch-pure/elasticsearch-pure.iml
+<<<<<<< HEAD
 >>>>>>> e1f7abd... update
+=======
+/elasticsearch-springboot/.mvn/
+myflume/.idea/
+myflume/logs/
+myflume/target/
+mykafka/.idea/
+mykafka/target/
+mykundera/.idea/
+spark-exercise/spark-exercise.iml
+spark-exercise/target/
+>>>>>>> d9f56fb... update
