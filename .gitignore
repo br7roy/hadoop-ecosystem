@@ -26,6 +26,7 @@ myprotobuf/.gitignore
 myhive/target/classes/com/rust/ThreadTool$DefaultThreadFactory.class
 myhive/target/myhive210-1.0-SNAPSHOT.jar
 myhive/target/test-classes/com/rust/TestCRUD.class
+<<<<<<< HEAD
 /spark-exercise/target/classes/work/a1.csv
 /spark-exercise/target/classes/work/a2.csv
 /spark-exercise/target/classes/work/fof_market_cycle.sql
@@ -181,3 +182,13 @@ myhive/target/test-classes/com/rust/TestCRUD.class
 /elasticsearch-pure/replay_pid17264.log
 /elasticsearch-springboot/.mvn/
 /myflume/logs/flume.log
+=======
+/author.log
+/.idea
+/elasticsearch-pure/hs_err_pid17264.log
+/elasticsearch-pure/replay_pid17264.log
+/elasticsearch-pure/.idea
+/elasticsearch-pure/out
+/elasticsearch-pure/target
+/elasticsearch-pure/elasticsearch-pure.iml
+>>>>>>> e1f7abd... update
