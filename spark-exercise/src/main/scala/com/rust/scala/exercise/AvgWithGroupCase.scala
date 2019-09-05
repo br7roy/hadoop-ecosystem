@@ -15,13 +15,26 @@ object AvgWithGroupCase {
     rdd.groupByKey().map(f=>{
       var num =0
       var sum = 0.0
-
       for (elem <- f._2) {
         sum=elem+sum
         num+=1
       }
       val avg = sum/num
       (f._1,f"$avg%1.2f")
+    }).collect().foreach(println)
+
+
+    //    或者用mapvalues
+    rdd.groupByKey().mapValues(it=>{
+      var sum = 0.0
+      var cnt = 0
+      for (elem <- it) {
+        sum+=elem
+        cnt+=1
+      }
+      var avg = sum/cnt
+      print(f"$avg%1.2f")
+      avg
     }).collect().foreach(println)
 
   }
