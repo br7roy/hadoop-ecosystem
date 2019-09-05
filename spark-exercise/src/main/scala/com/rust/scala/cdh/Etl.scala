@@ -12,12 +12,12 @@ import org.apache.spark.sql.{Encoder, Encoders, Row, SaveMode}
 	* @author Rust
 	*/
 object Etl extends Init {
-
+	case class Market(object_id: String, market_type: String, cycle_type: String, startdate: String, enddate: String,
+										market_feature: String, create_user_id: String, create_time: Timestamp, update_user_id: String,
+										update_time: Timestamp, delete_flag: Int)
 
 	def main(args: Array[String]): Unit = {
-		case class Market(object_id: String, market_type: String, cycle_type: String, startdate: String, enddate: String,
-		                  market_feature: String, create_user_id: String, create_time: Timestamp, update_user_id: String,
-		                  update_time: Timestamp, delete_flag: Int)
+
 
 
 		val path = "file:\\c:\\users\\futanghang\\desktop\\a1.csv"
