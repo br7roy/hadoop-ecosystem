@@ -1,6 +1,10 @@
 package com.rust.scala.cdh
 
+import java.util
+
+import org.apache.spark.{Partitioner, RangePartitioner}
 import org.apache.spark.internal.Logging
+import org.apache.spark.rdd.OrderedRDDFunctions
 
 import scala.collection.mutable
 
@@ -45,16 +49,24 @@ object WordCountWithAgg extends Init with Logging {
       agg2
     }
 
+
+
   }
 
   def main(args: Array[String]): Unit = {
     super.init()
     val rdd = sc.textFile("file:///D:\\project\\gitlab\\spark-exercise\\src\\test\\resources\\wc.txt")
-
-
     val res = rdd.flatMap(_.split("\n")).flatMap(_.split(" ")).aggregate(mutable.HashMap[String, Int]())(seqFuc, combFuc)
     res.foreach(println)
     logInfo(res.toString())
+    val  rd = sc.makeRDD(Array(1,2,3),3)
+    rd.mapPartitions( iter =>{
+      var list = List[Int]()
+      if (iter.hasNext) {
+        list :+= iter.next()
+      }
+      list.iterator
+    })
 
   }
 
