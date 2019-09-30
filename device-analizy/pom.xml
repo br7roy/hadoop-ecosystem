@@ -237,42 +237,6 @@
 
 <build>
     <plugins>
-        <!--  <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-
-              <execution>
-                <id>add-source</id>
-                              <phase>initialize</phase>
-                <goals>
-                  <goal>add-source</goal>
-                </goals>
-                <configuration>
-                  <sources>
-                    <source>${basedir}/src/main/scala</source>
-                  </sources>
-                </configuration>
-              </execution>
-
-            </executions>
-          </plugin>-->
-        <!--
-          <plugin>
-            <groupId>org.scala-tools</groupId>
-            <artifactId>maven-scala-plugin</artifactId>
-            <version>2.15.2</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>compile</goal>
-                  <goal>testCompile</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        -->
         <plugin>
             <groupId>net.alchim31.maven</groupId>
             <artifactId>scala-maven-plugin</artifactId>
@@ -320,33 +284,6 @@
                 </archive>
             </configuration>
         </plugin>
-        <!--maven-assembly-plugin不能打包spring Framework框架的项目，可以使用maven-shade-plugin插件-->
-        <!--
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>2.5.5</version>
-            <configuration>
-              <archive>
-                <manifest>
-                  <mainClass>com.xxg.Main</mainClass>
-                </manifest>
-              </archive>
-              <descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-            </configuration>
-            <executions>
-              <execution>
-                <id>make-assembly</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>single</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        -->
     </plugins>
 </build>
 
