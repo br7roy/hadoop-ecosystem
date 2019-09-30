@@ -19,9 +19,9 @@ object RouteAnalysis {
 
     val sc = SparkContext.getOrCreate(conf)
     val p1 = "E:\\dev\\esfile\\mainRdd.txt"
-    val p2 = "E:\\dev\\esfile\\mingzhong.txt"
+//    val p2 = "E:\\dev\\esfile\\mingzhong.txt"
 //    val p2 = "E:\\dev\\esfile\\weimingzhong.txt"
-//    val p2 = "E:\\dev\\esfile\\otherRdd.txt"
+    val p2 = "E:\\dev\\esfile\\otherRdd.txt"
 
     var mainRdd = sc.textFile(p1).map(r => r.split(",")).map(r => MacInfo(r(0), r(1), r(2).toLong, r(3).toLong)).map(r => ((r.mac + "&" + r.scode + "&" + r.stime), r)).combineByKey(List(_), (x: List[MacInfo], y: MacInfo) => y :: x, (x: List[MacInfo], y: List[MacInfo]) => x ::: y).sortBy(r => r._2.head.stime)
     var otherRdd = sc.textFile(p2).map(r => r.split(",")).map(r => MacInfo(r(0), r(1), r(2).toLong, r(3).toLong)).map(r => ((r.mac + "&" + r.scode + "&" + r.stime), r)).combineByKey(List(_), (x: List[MacInfo], y: MacInfo) => y :: x, (x: List[MacInfo], y: List[MacInfo]) => x ::: y).sortBy(r => r._2.head.stime)
