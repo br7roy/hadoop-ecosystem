@@ -1,4 +1,4 @@
-package com.xwc
+package com.rust
 
 /**
  * @author Administrator

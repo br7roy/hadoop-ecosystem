@@ -1,4 +1,4 @@
-package com.xwc
+package com.rust
 
 import org.apache.phoenix.spark.{SparkContextFunctions, SparkSqlContextFunctions}
 import org.apache.spark.sql.{Row, SQLContext}

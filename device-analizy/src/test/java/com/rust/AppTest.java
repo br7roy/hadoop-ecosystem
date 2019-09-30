@@ -1,4 +1,4 @@
-package com.xwc;
+package com.rust;
 
 import static org.junit.Assert.assertTrue;
 
