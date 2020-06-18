@@ -1,4 +1,4 @@
-{"namespace": "com.rust.myavro",
+{"namespace": "tk.tak.myavro",
  "type": "record",
  "name": "User",
  "fields": [

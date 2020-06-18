@@ -20,7 +20,7 @@
       <spark.version>1.6.0</spark.version>
       <hadoop.version>2.6.3</hadoop.version>
       <elasticsearch.version>2.4.3</elasticsearch.version>
-      <main.class.name>com.rust.SparkEs</main.class.name>
+      <main.class.name>com.tak.SparkEs</main.class.name>
   </properties>
 
 

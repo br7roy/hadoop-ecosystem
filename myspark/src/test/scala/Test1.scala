@@ -3,7 +3,7 @@ import java.net.InetAddress
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
-  * @author Takho
+  * @author Tak
   *
   */
 object Test1 {

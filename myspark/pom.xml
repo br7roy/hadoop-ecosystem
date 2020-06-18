@@ -2,14 +2,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.rust.spark</groupId>
+  <groupId>tk.tak.spark</groupId>
   <artifactId>myspark</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.version>2.11.11</scala.version>
-    <main.class.name>com.rust.spark.scala.MySparkKafkaDemo</main.class.name>
+    <main.class.name>com.tak.spark.scala.MySparkKafkaDemo</main.class.name>
   </properties>
   <build>
     <plugins>
