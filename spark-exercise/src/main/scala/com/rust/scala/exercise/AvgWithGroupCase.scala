@@ -37,7 +37,12 @@ object AvgWithGroupCase {
       avg
     }).collect().foreach(println)
     //    使用combineByKey
-    rdd.combineByKey(score=>(score,1),(res1:Tuple2[Double,Int], ele:Double)=>(res1._1+ele,res1._2+1), (x1:Tuple2[Double,Int], y1:Tuple2[Double,Int])=>(x1._1+y1._1,x1._2+y1._2)).mapValues(f =>
+    rdd
+      .combineByKey(
+        score=>(score,1),
+        (res1:Tuple2[Double,Int], ele:Double)=>(res1._1+ele,res1._2+1),
+        (x1:Tuple2[Double,Int], y1:Tuple2[Double,Int])=>(x1._1+y1._1,x1._2+y1._2))
+      .mapValues(f =>
     {
       var avg = f._1/f._2
       f"$avg%1.2f"

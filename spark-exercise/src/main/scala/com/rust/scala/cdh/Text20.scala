@@ -4,7 +4,6 @@ import org.apache.spark.internal.Logging
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 
 import scala.collection.mutable.ListBuffer
-import scala.util.parsing.json.JSON
 
 /**
   * @author Rust
