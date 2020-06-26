@@ -8,7 +8,6 @@ import org.apache.spark.sql.{Encoder, SparkSession}
   */
 object Text20Test extends Init with Logging {
   def main(args: Array[String]): Unit = {
-    init()
     case class People(name: String, age: BigInt, gender: String)
 
 
