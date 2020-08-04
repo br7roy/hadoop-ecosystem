@@ -1,7 +1,9 @@
 # hadoop-ecosystem
-记录我学习hadoop生态系统涉及的框架
 
 
+Record the frameworks involved in my study of the hadoop ecosystem
+
+##  Component
 - [x] hadoop
 - [x] hbase
 - [x] hive
