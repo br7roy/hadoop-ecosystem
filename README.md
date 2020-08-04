@@ -14,6 +14,7 @@
 - [x] spark-python
 - [x] avro
 - [x] flume
+- [x] mahout
 - [x] elastic-search-pure
 - [ ] elastic-search-springboot
 
